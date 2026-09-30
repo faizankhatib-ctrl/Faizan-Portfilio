@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import Icon from './Icon';
 
 const categories = [
-  { id: 'all', label: 'All' },
+  { id: 'all', label: 'All Projects' },
   { id: 'fullstack', label: 'Full Stack' },
-  { id: 'frontend', label: 'Frontend' },
   { id: 'backend', label: 'Backend' },
   { id: 'aidata', label: 'AI / Data' },
+  { id: 'frontend', label: 'Frontend' },
   { id: 'other', label: 'Other' },
 ];
 
@@ -172,29 +172,6 @@ const projectsData = [
     live: null,
     colorScheme: 'emerald',
   },
-  {
-    id: 'prescription-manager',
-    title: 'Prescription Manager — Health Portal',
-    subtitle: 'Real-time patient prescription sync with Firestore',
-    category: 'frontend',
-    categoryLabel: 'Frontend',
-    iconName: 'monitor',
-    image: '/assets/projects/prescription-manager.svg',
-    shortDescription:
-      'A real-time digital healthcare prescription recording application integrated with Firebase and Firestore for instant cloud synchronization and patient record management.',
-    fullDescription:
-      'Prescription Manager enables doctors and clinicians to digitize and manage patient prescription logs. It connects directly with Firestore to ensure instant real-time synchronization, dosage timing categorization, and immediate search across patient medical histories.',
-    keyFeatures: [
-      'Real-time document persistence and patient prescription tracking with Firebase Firestore.',
-      'Medicine lookup, dosage scheduling, and doctor recommendation categorization.',
-      'Fast client-side search and filtering across historical patient medical records.',
-      'Clean, accessible responsive interface optimized for clinical workflows.',
-    ],
-    technologies: ['JavaScript', 'Firebase', 'Firestore', 'HTML5', 'CSS3', 'Real-Time Sync'],
-    github: 'https://github.com/faizankhatib-ctrl/Prescription-Manager',
-    live: null,
-    colorScheme: 'pink',
-  },
 ];
 
 export default function Projects() {
@@ -241,13 +218,13 @@ export default function Projects() {
             Engineered with <span className="text-accent">precision</span> & depth.
           </h2>
           <p className="section-subtitle">
-            A showcase of real production-ready web applications, distributed APIs, AI evaluation studios, and full-stack systems.
+            A showcase of production-ready web applications, distributed APIs, AI evaluation studios, and full-stack systems.
           </p>
         </div>
 
         {/* Filter Tabs */}
         <div className="projects__filter-row reveal reveal-delay-1">
-          <div className="projects__filters" role="tablist" aria-label="Project Categories">
+          <div className="projects__filters" role="tablist" aria-label="Project Category Filters">
             {categories.map((cat) => {
               const count = cat.id === 'all'
                 ? projectsData.length
@@ -263,7 +240,7 @@ export default function Projects() {
                   onClick={() => setActiveFilter(cat.id)}
                 >
                   <span>{cat.label}</span>
-                  {count > 0 && <span className="projects__filter-count">{count}</span>}
+                  <span className="projects__filter-count">{count}</span>
                 </button>
               );
             })}
@@ -272,96 +249,116 @@ export default function Projects() {
 
         {/* Projects Grid */}
         <div className="projects__grid">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`projects__card projects__card--${project.colorScheme} reveal`}
-              style={{ animationDelay: `${index * 60}ms` }}
-            >
-              {/* Card Image Banner */}
-              <div className={`projects__card-banner projects__card-banner--${project.colorScheme}`}>
-                <img
-                  src={project.image}
-                  alt={`${project.title} Preview`}
-                  className="projects__card-img"
-                  loading="lazy"
-                />
-                <div className="projects__card-category-pill">
-                  {project.categoryLabel}
-                </div>
-                {project.live && (
-                  <div className="projects__card-live-badge" title="Live Deployment Active">
-                    <span className="projects__live-dot"></span>
-                    <span>Live Demo</span>
-                  </div>
-                )}
+          {filteredProjects.length === 0 ? (
+            <div className="projects__empty-state">
+              <div className="projects__empty-icon">
+                <Icon name="info" size={24} />
               </div>
-
-              {/* Card Body */}
-              <div className="projects__card-body">
-                <div className="projects__card-meta">
-                  <h3 className="projects__card-title">{project.title}</h3>
-                  <p className="projects__card-subtitle">{project.subtitle}</p>
-                </div>
-
-                <p className="projects__card-desc">{project.shortDescription}</p>
-
-                {/* Tech Tags */}
-                <div className="projects__card-tags">
-                  {project.technologies.slice(0, 5).map((tech) => (
-                    <span className="projects__card-tag" key={tech}>
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 5 && (
-                    <span className="projects__card-tag projects__card-tag--more">
-                      +{project.technologies.length - 5}
-                    </span>
+              <p className="projects__empty-title">No projects in this category</p>
+              <p className="projects__empty-desc">Check out the other categories or browse all projects.</p>
+              <button
+                type="button"
+                className="btn btn--primary projects__empty-btn"
+                onClick={() => setActiveFilter('all')}
+              >
+                <span>View All Projects</span>
+              </button>
+            </div>
+          ) : (
+            filteredProjects.map((project, index) => (
+              <div
+                key={project.id}
+                className="projects__card reveal"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
+                {/* Card Banner */}
+                <div className="projects__card-banner">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} Preview`}
+                    className="projects__card-img"
+                    loading="lazy"
+                  />
+                  <div className="projects__card-category-pill">
+                    {project.categoryLabel}
+                  </div>
+                  {project.live && (
+                    <div className="projects__card-live-badge" title="Live Deployment Active">
+                      <span className="projects__live-dot"></span>
+                      <span>Live Demo</span>
+                    </div>
                   )}
                 </div>
 
-                {/* Card Actions */}
-                <div className="projects__card-actions">
-                  <button
-                    type="button"
-                    className="btn-card-action btn-card-action--details"
-                    onClick={() => setSelectedProject(project)}
-                    aria-label={`View full details for ${project.title}`}
-                  >
-                    <Icon name="eye" size={15} />
-                    <span>View Details</span>
-                  </button>
+                {/* Card Body */}
+                <div className="projects__card-body">
+                  <div className="projects__card-meta">
+                    <div className="projects__card-index">0{index + 1}</div>
+                    <div className="projects__card-titles">
+                      <h3 className="projects__card-title">{project.title}</h3>
+                      <p className="projects__card-subtitle">{project.subtitle}</p>
+                    </div>
+                  </div>
 
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-card-action btn-card-action--github"
-                    aria-label={`View ${project.title} repository on GitHub`}
-                    title="View GitHub Repository"
-                  >
-                    <Icon name="github" size={15} />
-                    <span>GitHub</span>
-                    <Icon name="arrowUpRight" size={12} />
-                  </a>
+                  <p className="projects__card-desc">{project.shortDescription}</p>
 
-                  {project.live && (
+                  {/* Tech Tags */}
+                  <div className="projects__card-tags">
+                    {project.technologies.slice(0, 5).map((tech) => (
+                      <span className="projects__card-tag" key={tech}>
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 5 && (
+                      <span className="projects__card-tag projects__card-tag--more">
+                        +{project.technologies.length - 5}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Card Actions */}
+                  <div className="projects__card-actions">
+                    <button
+                      type="button"
+                      className="btn-card-action btn-card-action--details"
+                      onClick={() => setSelectedProject(project)}
+                      aria-label={`View details for ${project.title}`}
+                    >
+                      <Icon name="eye" size={14} />
+                      <span>View Details</span>
+                    </button>
+
                     <a
-                      href={project.live}
+                      href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-card-action btn-card-action--demo"
-                      aria-label={`Open live deployment for ${project.title}`}
-                      title="Launch Live Demo"
+                      className="btn-card-action btn-card-action--github"
+                      aria-label={`GitHub repository for ${project.title}`}
+                      title="View GitHub Repository"
                     >
-                      <Icon name="externalLink" size={15} />
-                      <span>Live Demo</span>
+                      <Icon name="github" size={14} />
+                      <span>GitHub</span>
+                      <Icon name="arrowUpRight" size={11} />
                     </a>
-                  )}
+
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-card-action btn-card-action--demo"
+                        aria-label={`Live demo for ${project.title}`}
+                        title="Launch Live Demo"
+                      >
+                        <Icon name="externalLink" size={14} />
+                        <span>Live Demo</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -379,22 +376,22 @@ export default function Projects() {
             className="modal__container"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Image Header Banner */}
-            <div className={`modal__banner modal__banner--${selectedProject.colorScheme}`}>
+            {/* Modal Banner */}
+            <div className="modal__banner">
               <img
                 src={selectedProject.image}
-                alt={`${selectedProject.title} Large Preview`}
+                alt={`${selectedProject.title} Preview`}
                 className="modal__banner-img"
               />
               <div className="modal__banner-overlay"></div>
-              
+
               <div className="modal__banner-content">
                 <div className="modal__badge-row">
                   <span className="modal__category-badge">{selectedProject.categoryLabel}</span>
                   {selectedProject.live && (
                     <span className="modal__live-badge">
                       <span className="projects__live-dot"></span>
-                      Live Deployment Active
+                      Live Demo Active
                     </span>
                   )}
                 </div>
@@ -408,28 +405,28 @@ export default function Projects() {
                 type="button"
                 className="modal__close-btn"
                 onClick={() => setSelectedProject(null)}
-                aria-label="Close project modal dialog"
+                aria-label="Close dialog"
               >
-                <Icon name="close" size={20} />
+                <Icon name="close" size={18} />
               </button>
             </div>
 
-            {/* Modal Scrollable Body */}
+            {/* Modal Body */}
             <div className="modal__body">
-              {/* Overview */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Project Overview</h4>
-                <p className="modal__description" id="modal-project-desc">{selectedProject.fullDescription}</p>
+                <h4 className="modal__section-heading">Overview</h4>
+                <p className="modal__description" id="modal-project-desc">
+                  {selectedProject.fullDescription}
+                </p>
               </div>
 
-              {/* Key Features */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Key Features & Engineering Highlights</h4>
+                <h4 className="modal__section-heading">Key Features & Architecture</h4>
                 <ul className="modal__features-list">
                   {selectedProject.keyFeatures.map((feature, i) => (
                     <li key={i} className="modal__feature-item">
                       <span className="modal__feature-check">
-                        <Icon name="check" size={13} />
+                        <Icon name="check" size={12} />
                       </span>
                       <span>{feature}</span>
                     </li>
@@ -437,9 +434,8 @@ export default function Projects() {
                 </ul>
               </div>
 
-              {/* Tech Stack */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Technology Stack</h4>
+                <h4 className="modal__section-heading">Technologies</h4>
                 <div className="modal__tech-tags">
                   {selectedProject.technologies.map((tech) => (
                     <span className="modal__tech-tag" key={tech}>
@@ -450,18 +446,18 @@ export default function Projects() {
               </div>
             </div>
 
-            {/* Modal Footer Actions */}
+            {/* Modal Footer */}
             <div className="modal__footer">
               <a
                 href={selectedProject.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn--primary"
-                aria-label={`Open ${selectedProject.title} on GitHub`}
+                aria-label={`Open ${selectedProject.title} GitHub repository`}
               >
-                <Icon name="github" size={18} />
-                <span>View on GitHub</span>
-                <Icon name="arrowUpRight" size={14} />
+                <Icon name="github" size={16} />
+                <span>GitHub Repository</span>
+                <Icon name="arrowUpRight" size={13} />
               </a>
 
               {selectedProject.live ? (
@@ -470,9 +466,9 @@ export default function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn--secondary"
-                  aria-label={`Launch live demo for ${selectedProject.title}`}
+                  aria-label={`Launch ${selectedProject.title} Live Demo`}
                 >
-                  <Icon name="externalLink" size={18} />
+                  <Icon name="externalLink" size={16} />
                   <span>Launch Live Demo</span>
                 </a>
               ) : (

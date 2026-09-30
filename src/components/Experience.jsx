@@ -9,9 +9,9 @@ const experiences = [
     location: 'Pune / Remote',
     type: 'Internship',
     description: [
-      'Contributing to both front-end and back-end application modules using Java-based technologies.',
-      'Gaining rigorous hands-on engineering experience in full-stack software architecture and production software practices.',
-      'Developing maintainable components and collaborating in a structured development environment.',
+      'Contributing to both frontend and backend modules for enterprise web applications using Java-based architectures.',
+      'Gaining hands-on engineering experience in full-stack software development workflows, clean code principles, and REST API integration.',
+      'Collaborating in an agile development setup to deliver tested, maintainable codebase features.',
     ],
     tags: ['Java', 'Full Stack', 'Software Engineering', 'REST APIs'],
   },
@@ -24,10 +24,10 @@ const experiences = [
     location: 'Agency Client Project',
     type: 'Internship',
     description: [
-      'Served as Frontend Developer on a live production client project at Vier Labs agency.',
+      'Served as Frontend Developer on a live production client project at Vier Labs digital agency.',
       'Architected and implemented responsive UI components leveraging the MERN stack (MongoDB, Express.js, React.js, Node.js).',
       'Integrated Firebase and Firestore for real-time data persistence, authentication, and state synchronization.',
-      'Collaborated directly with senior engineers and agency stakeholders to ship features on milestone deadlines.',
+      'Collaborated directly with senior engineers and agency stakeholders to meet milestone release schedules.',
     ],
     tags: ['React.js', 'MERN Stack', 'Firebase', 'Firestore', 'UI Architecture'],
   },
@@ -40,9 +40,9 @@ const experiences = [
     location: 'Remote',
     type: 'Internship',
     description: [
-      'Engineered and maintained core front-end and back-end components for client web projects.',
-      'Expanded practical development skills across HTML5, CSS3, JavaScript ES6+, and Python.',
-      'Delivered tested code modules and resolved interface responsiveness challenges.',
+      'Engineered and maintained core frontend and backend components for client web projects.',
+      'Applied modern web fundamentals across HTML5, CSS3, JavaScript ES6+, and Python scripting.',
+      'Delivered modular code components and resolved cross-browser responsiveness challenges.',
     ],
     tags: ['HTML5', 'CSS3', 'JavaScript', 'Python', 'Web Dev'],
   },
@@ -62,7 +62,7 @@ export default function Experience() {
             Internships & <span className="text-accent">practical experience</span>.
           </h2>
           <p className="section-subtitle">
-            Hands-on software development across agencies, startups, and full-stack programs.
+            Hands-on software development across agencies, startups, and full-stack engineering programs.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function Experience() {
               className={`experience__item reveal reveal-delay-${index + 1}`}
               key={exp.company}
             >
-              {/* Timeline Node Indicator */}
+              {/* Timeline Node */}
               <div className="experience__node">
                 <span className={`experience__node-dot ${exp.status === 'Ongoing' ? 'experience__node-dot--active' : ''}`}>
                   {exp.status === 'Ongoing' && <span className="experience__node-ping"></span>}
@@ -85,7 +85,7 @@ export default function Experience() {
               {/* Experience Card */}
               <div className="experience__card">
                 <div className="experience__card-header">
-                  <div className="experience__role-box">
+                  <div className="experience__card-heading-group">
                     <div className="experience__badge-row">
                       <span className="experience__type-badge">{exp.type}</span>
                       {exp.status === 'Ongoing' ? (
@@ -100,7 +100,7 @@ export default function Experience() {
                       )}
                     </div>
                     <h3 className="experience__role">{exp.role}</h3>
-                    <div className="experience__company-wrap">
+                    <div className="experience__company-row">
                       {exp.companyUrl ? (
                         <a
                           href={exp.companyUrl}
@@ -110,33 +110,33 @@ export default function Experience() {
                           aria-label={`${exp.company} website`}
                         >
                           <span className="experience__company-name">{exp.company}</span>
-                          <Icon name="externalLink" size={14} />
+                          <Icon name="externalLink" size={13} />
                         </a>
                       ) : (
                         <span className="experience__company-name">{exp.company}</span>
                       )}
-                      <span className="experience__location-divider">•</span>
+                      <span className="experience__location-dot">•</span>
                       <span className="experience__location">{exp.location}</span>
                     </div>
                   </div>
 
                   <div className="experience__period-badge">
-                    <Icon name="calendar" size={15} />
+                    <Icon name="calendar" size={14} />
                     <span>{exp.period}</span>
                   </div>
                 </div>
 
-                {/* Responsibilities list */}
+                {/* Description List */}
                 <ul className="experience__list">
                   {exp.description.map((item, i) => (
                     <li key={i} className="experience__list-item">
-                      <span className="experience__bullet" aria-hidden="true">▹</span>
+                      <span className="experience__arrow" aria-hidden="true">→</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* Tech tags */}
+                {/* Tech Tags */}
                 <div className="experience__tags">
                   {exp.tags.map((tag) => (
                     <span className="experience__tag" key={tag}>

@@ -10,54 +10,34 @@ export default function Contact() {
     message: '',
   });
 
-  const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success'
   const [copied, setCopied] = useState(false);
 
   const contactEmail = siteConfig.email;
   const contactPhone = siteConfig.phone;
   const contactLocation = siteConfig.location;
 
-  const validateForm = () => {
-    const errs = {};
-    if (!formData.name.trim()) {
-      errs.name = 'Please enter your name.';
-    }
-    if (!formData.email.trim()) {
-      errs.email = 'Please enter your email address.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      errs.email = 'Please enter a valid email address.';
-    }
-    if (!formData.message.trim()) {
-      errs.message = 'Please enter your message.';
-    } else if (formData.message.trim().length < 10) {
-      errs.message = 'Message must be at least 10 characters long.';
-    }
-    return errs;
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+  };
+
+  const buildMailtoLink = () => {
+    const subjectText = formData.subject.trim() || 'Portfolio Contact — Faizan Khatib';
+    
+    let bodyText = formData.message.trim();
+    if (!bodyText) {
+      bodyText = 'Hello Faizan,\n\nI visited your portfolio and would like to get in touch with you.\n\nRegards,';
+    } else if (formData.name.trim() || formData.email.trim()) {
+      bodyText += `\n\nRegards,\n${formData.name.trim()} ${formData.email.trim() ? `<${formData.email.trim()}>` : ''}`;
     }
+
+    return `mailto:${contactEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setStatus('loading');
-
-    // Simulate packaging and generate prefilled mailto action
-    setTimeout(() => {
-      setStatus('success');
-    }, 500);
+    const mailtoUrl = buildMailtoLink();
+    window.location.href = mailtoUrl;
   };
 
   const copyEmailToClipboard = () => {
@@ -92,21 +72,11 @@ export default function Contact() {
         setTimeout(() => setCopied(false), 2500);
       }
     } catch {
-      // Gracefully silent fallback
+      // Graceful fallback
     }
   };
 
-  const resetForm = () => {
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setErrors({});
-    setStatus('idle');
-  };
-
-  const mailtoLink = `mailto:${contactEmail}?subject=${encodeURIComponent(
-    formData.subject.trim() || `Portfolio Inquiry from ${formData.name.trim() || 'Visitor'}`
-  )}&body=${encodeURIComponent(
-    `Hello Faizan,\n\n${formData.message.trim()}\n\nFrom: ${formData.name.trim()} (${formData.email.trim()})`
-  )}`;
+  const currentMailtoLink = buildMailtoLink();
 
   return (
     <section className="contact section-spacing" id="contact">
@@ -118,7 +88,7 @@ export default function Contact() {
             <span className="section-tag__label">Get In Touch</span>
           </div>
           <h2 className="section-title">
-            Let's build something <span className="text-accent">extraordinary</span> together.
+            Let's build something <span className="text-accent">meaningful</span> together.
           </h2>
           <p className="section-subtitle">
             Whether you have an internship opportunity, a project to collaborate on, or just want to connect.
@@ -139,7 +109,7 @@ export default function Contact() {
                 {/* Email Card */}
                 <div className="contact__item-card">
                   <div className="contact__item-icon">
-                    <Icon name="mail" size={20} />
+                    <Icon name="mail" size={18} />
                   </div>
                   <div className="contact__item-details">
                     <span className="contact__item-label">Email</span>
@@ -157,7 +127,7 @@ export default function Contact() {
                     aria-label="Copy email address"
                     title={copied ? 'Copied!' : 'Copy to clipboard'}
                   >
-                    <Icon name={copied ? 'check' : 'copy'} size={16} />
+                    <Icon name={copied ? 'check' : 'copy'} size={15} />
                   </button>
                   {copied && (
                     <span className="contact__copied-toast" aria-live="polite">
@@ -169,7 +139,7 @@ export default function Contact() {
                 {/* Phone Card */}
                 <div className="contact__item-card">
                   <div className="contact__item-icon">
-                    <Icon name="phone" size={20} />
+                    <Icon name="phone" size={18} />
                   </div>
                   <div className="contact__item-details">
                     <span className="contact__item-label">Phone</span>
@@ -185,7 +155,7 @@ export default function Contact() {
                 {/* Location Card */}
                 <div className="contact__item-card">
                   <div className="contact__item-icon">
-                    <Icon name="mapPin" size={20} />
+                    <Icon name="mapPin" size={18} />
                   </div>
                   <div className="contact__item-details">
                     <span className="contact__item-label">Location</span>
@@ -196,7 +166,7 @@ export default function Contact() {
 
               {/* Social Channels */}
               <div className="contact__socials-section">
-                <span className="contact__socials-title">Social & Profiles</span>
+                <span className="contact__socials-title">Professional Profiles</span>
                 <div className="contact__socials-row">
                   <a
                     href={siteConfig.github}
@@ -205,9 +175,9 @@ export default function Contact() {
                     className="contact__social-button"
                     aria-label={`${siteConfig.name} GitHub Profile`}
                   >
-                    <Icon name="github" size={18} />
+                    <Icon name="github" size={16} />
                     <span>GitHub</span>
-                    <Icon name="arrowUpRight" size={13} />
+                    <Icon name="arrowUpRight" size={12} />
                   </a>
                   <a
                     href={siteConfig.linkedin}
@@ -216,147 +186,115 @@ export default function Contact() {
                     className="contact__social-button"
                     aria-label={`${siteConfig.name} LinkedIn Profile`}
                   >
-                    <Icon name="linkedin" size={18} />
+                    <Icon name="linkedin" size={16} />
                     <span>LinkedIn</span>
-                    <Icon name="arrowUpRight" size={13} />
+                    <Icon name="arrowUpRight" size={12} />
+                  </a>
+                  <a
+                    href={siteConfig.resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact__social-button"
+                    aria-label={`${siteConfig.name} Resume`}
+                  >
+                    <Icon name="download" size={16} />
+                    <span>Resume</span>
+                    <Icon name="arrowUpRight" size={12} />
                   </a>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Interactive Contact Form */}
+          {/* Right Column: Contact Form */}
           <div className="contact__form-col reveal reveal-delay-2">
             <div className="contact__form-card">
               <div className="contact__form-header">
                 <h3 className="contact__form-title">Send a Message</h3>
                 <p className="contact__form-subtitle">
-                  Fill in the details below to prepare your message directly.
+                  Fill in the details below to open your default email client with a prefilled message.
                 </p>
               </div>
 
-              {status === 'success' ? (
-                <div className="contact__success-view">
-                  <div className="contact__success-icon-wrap">
-                    <Icon name="check" size={32} />
-                  </div>
-                  <h4 className="contact__success-title">Message Prepared!</h4>
-                  <p className="contact__success-text">
-                    Thank you, <strong>{formData.name}</strong>. Your message has been formatted.
-                    Click below to open in your default email client, or send directly to{' '}
-                    <strong className="text-accent">{contactEmail}</strong>.
-                  </p>
-
-                  <div className="contact__success-actions">
-                    <a
-                      href={mailtoLink}
-                      className="btn btn--primary"
-                    >
-                      <Icon name="mail" size={18} />
-                      <span>Open in Email App</span>
-                    </a>
-                    <button
-                      type="button"
-                      className="btn btn--ghost"
-                      onClick={resetForm}
-                    >
-                      <span>Send Another Note</span>
-                    </button>
-                  </div>
+              <form className="contact__form" onSubmit={handleSubmit} action={currentMailtoLink} method="post" encType="text/plain">
+                {/* Name Field */}
+                <div className="form__group">
+                  <label htmlFor="contact-name" className="form__label">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="e.g. Alex Johnson"
+                    className="form__input"
+                  />
                 </div>
-              ) : (
-                <form className="contact__form" onSubmit={handleSubmit} noValidate>
-                  {/* Name Field */}
-                  <div className="form__group">
-                    <label htmlFor="contact-name" className="form__label">
-                      Your Name <span className="form__required">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="contact-name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="e.g. Alex Johnson"
-                      className={`form__input ${errors.name ? 'form__input--error' : ''}`}
-                      aria-invalid={!!errors.name}
-                    />
-                    {errors.name && <span className="form__error-msg">{errors.name}</span>}
-                  </div>
 
-                  {/* Email Field */}
-                  <div className="form__group">
-                    <label htmlFor="contact-email" className="form__label">
-                      Your Email <span className="form__required">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="contact-email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="e.g. alex@example.com"
-                      className={`form__input ${errors.email ? 'form__input--error' : ''}`}
-                      aria-invalid={!!errors.email}
-                    />
-                    {errors.email && <span className="form__error-msg">{errors.email}</span>}
-                  </div>
+                {/* Email Field */}
+                <div className="form__group">
+                  <label htmlFor="contact-email" className="form__label">
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="e.g. alex@example.com"
+                    className="form__input"
+                  />
+                </div>
 
-                  {/* Subject Field (Optional) */}
-                  <div className="form__group">
-                    <label htmlFor="contact-subject" className="form__label">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      id="contact-subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="e.g. Project Inquiry or Internship Opportunity"
-                      className="form__input"
-                    />
-                  </div>
+                {/* Subject Field */}
+                <div className="form__group">
+                  <label htmlFor="contact-subject" className="form__label">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="e.g. Project Inquiry or Internship Opportunity"
+                    className="form__input"
+                  />
+                </div>
 
-                  {/* Message Field */}
-                  <div className="form__group">
-                    <label htmlFor="contact-message" className="form__label">
-                      Message <span className="form__required">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Hello Faizan, I'd like to discuss..."
-                      className={`form__textarea ${errors.message ? 'form__input--error' : ''}`}
-                      aria-invalid={!!errors.message}
-                    ></textarea>
-                    {errors.message && <span className="form__error-msg">{errors.message}</span>}
-                  </div>
+                {/* Message Field */}
+                <div className="form__group">
+                  <label htmlFor="contact-message" className="form__label">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Hello Faizan, I would like to get in touch..."
+                    className="form__textarea"
+                  ></textarea>
+                </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="btn btn--primary form__submit-btn"
-                    disabled={status === 'loading'}
-                  >
-                    {status === 'loading' ? (
-                      <>
-                        <span className="btn__spinner"></span>
-                        <span>Preparing...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="mail" size={18} />
-                        <span>Send Message</span>
-                        <Icon name="arrowRight" size={16} />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+                {/* Submit Button */}
+                <a
+                  href={currentMailtoLink}
+                  className="btn btn--primary form__submit-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = currentMailtoLink;
+                  }}
+                >
+                  <Icon name="mail" size={16} />
+                  <span>Send Message</span>
+                  <Icon name="arrowRight" size={15} />
+                </a>
+              </form>
             </div>
           </div>
         </div>

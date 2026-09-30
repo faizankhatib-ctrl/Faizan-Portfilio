@@ -1,4 +1,5 @@
 import Icon from './Icon';
+import { siteConfig } from '../data/siteConfig';
 
 export default function About() {
   return (
@@ -18,96 +19,89 @@ export default function About() {
           </p>
         </div>
 
-        {/* Bento Grid Layout */}
-        <div className="about__bento">
-          {/* Card 1: Core Narrative (Large Span) */}
-          <div className="about__card about__card--story reveal">
-            <div className="about__card-header">
-              <div className="about__card-icon-pill">
-                <Icon name="code" size={20} />
+        {/* Editorial Layout */}
+        <div className="about__layout">
+          {/* Left: Journey Narrative */}
+          <div className="about__narrative-col reveal">
+            <div className="about__story-card">
+              <div className="about__card-kicker-row">
+                <Icon name="code" size={18} className="text-accent" />
+                <span className="about__card-kicker">Developer Journey</span>
               </div>
-              <span className="about__card-kicker">Developer Journey</span>
-            </div>
-            <h3 className="about__card-title">
-              From Frontend Interfaces to Full Stack Systems
-            </h3>
-            <p className="about__card-text">
-              I'm a B.Tech Computer Technology student at Ahinsa Institute of Technology, Dondaicha, Maharashtra,
-              dedicated to creating performant, user-focused web applications.
-            </p>
-            <p className="about__card-text">
-              My engineering trajectory spans building responsive frontend features for live client projects at agencies
-              like Vier Labs, developing web modules at Codveda Technologies, and building full-stack applications with
-              Java and modern JavaScript ecosystems at ITView.
-            </p>
-          </div>
+              <h3 className="about__story-title">
+                From frontend interfaces to distributed full stack systems.
+              </h3>
+              <p className="about__story-text">
+                I am a B.Tech Computer Technology undergraduate at Ahinsa Institute of Technology, Dondaicha, Maharashtra, dedicated to building high-performance, maintainable software and user-centered web applications.
+              </p>
+              <p className="about__story-text">
+                My engineering experience spans developing frontend features for live client projects at Vier Labs, building web modules at Codveda Technologies, and engineering full-stack applications with Java and modern JavaScript frameworks at ITView.
+              </p>
+              <p className="about__story-text">
+                I combine rigorous computer science fundamentals with modern production patterns — focusing on clean architecture, API design, transactional database concurrency, and intuitive user experiences.
+              </p>
 
-          {/* Card 2: Quick Facts & Status */}
-          <div className="about__card about__card--meta reveal reveal-delay-1">
-            <div className="about__card-header">
-              <div className="about__card-icon-pill">
-                <Icon name="mapPin" size={20} />
-              </div>
-              <span className="about__card-kicker">Quick Overview</span>
-            </div>
-
-            <div className="about__meta-list">
-              <div className="about__meta-row">
-                <span className="about__meta-label">Location</span>
-                <span className="about__meta-value">Maharashtra, India</span>
-              </div>
-              <div className="about__meta-row">
-                <span className="about__meta-label">Academic Track</span>
-                <span className="about__meta-value">B.Tech Computer Technology</span>
-              </div>
-              <div className="about__meta-row">
-                <span className="about__meta-label">Institution</span>
-                <span className="about__meta-value">Ahinsa Inst. of Tech (2023–2027)</span>
-              </div>
-              <div className="about__meta-row">
-                <span className="about__meta-label">Active Internship</span>
-                <span className="about__meta-value text-accent">Full Stack Intern @ ITView</span>
+              <div className="about__story-highlights">
+                <div className="about__highlight-item">
+                  <span className="about__highlight-dot"></span>
+                  <span>Active Full Stack Intern @ ITView</span>
+                </div>
+                <div className="about__highlight-item">
+                  <span className="about__highlight-dot"></span>
+                  <span>Published Researcher (JATIR 2026)</span>
+                </div>
+                <div className="about__highlight-item">
+                  <span className="about__highlight-dot"></span>
+                  <span>Specialized in MERN & Java Ecosystems</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Card 3: Technical Focus */}
-          <div className="about__card about__card--focus reveal reveal-delay-2">
-            <div className="about__card-header">
-              <div className="about__card-icon-pill">
-                <Icon name="layers" size={20} />
+          {/* Right: Quick Overview & Architecture Focus Cards */}
+          <div className="about__sidebar-col reveal reveal-delay-2">
+            {/* Quick Facts */}
+            <div className="about__card about__card--meta">
+              <div className="about__card-kicker-row">
+                <Icon name="mapPin" size={18} className="text-accent" />
+                <span className="about__card-kicker">Quick Overview</span>
               </div>
-              <span className="about__card-kicker">Architecture Focus</span>
+              <div className="about__meta-list">
+                <div className="about__meta-row">
+                  <span className="about__meta-label">Location</span>
+                  <span className="about__meta-value">{siteConfig.location}</span>
+                </div>
+                <div className="about__meta-row">
+                  <span className="about__meta-label">Degree Track</span>
+                  <span className="about__meta-value">B.Tech Computer Technology</span>
+                </div>
+                <div className="about__meta-row">
+                  <span className="about__meta-label">College</span>
+                  <span className="about__meta-value">Ahinsa Inst. of Tech (2023–2027)</span>
+                </div>
+                <div className="about__meta-row">
+                  <span className="about__meta-label">Current Role</span>
+                  <span className="about__meta-value text-accent">Full Stack Intern @ ITView</span>
+                </div>
+              </div>
             </div>
-            <h3 className="about__card-title">Full Stack & Real-Time Data</h3>
-            <p className="about__card-text">
-              Specialized in building end-to-end applications using the MERN stack (MongoDB, Express.js, React.js, Node.js)
-              and Java full-stack paradigms, with hands-on integration of Firebase and Firestore.
-            </p>
-            <div className="about__tags">
-              <span className="about__tag">MERN Stack</span>
-              <span className="about__tag">Java Full Stack</span>
-              <span className="about__tag">REST APIs</span>
-              <span className="about__tag">Firebase / Firestore</span>
-            </div>
-          </div>
 
-          {/* Card 4: Research & Impact */}
-          <div className="about__card about__card--research reveal reveal-delay-3">
-            <div className="about__card-header">
-              <div className="about__card-icon-pill">
-                <Icon name="bookOpen" size={20} />
+            {/* Architecture Focus */}
+            <div className="about__card about__card--focus">
+              <div className="about__card-kicker-row">
+                <Icon name="layers" size={18} className="text-accent" />
+                <span className="about__card-kicker">Technical Focus</span>
               </div>
-              <span className="about__card-kicker">Published Research</span>
-            </div>
-            <h3 className="about__card-title">Tech & Psychological Impact</h3>
-            <p className="about__card-text">
-              Co-authored a peer-reviewed research paper in JATIR (June 2026) evaluating how smartphone, AI, and social
-              media technologies affect psychological well-being among young adults in India.
-            </p>
-            <div className="about__research-badge">
-              <Icon name="award" size={16} />
-              <span>Certified JATIR Publication (Vol. 2, Issue 6)</span>
+              <p className="about__focus-desc">
+                Architecting end-to-end applications across the MERN stack, Java full stack, and cloud datastores.
+              </p>
+              <div className="about__focus-tags">
+                <span className="about__focus-tag">MERN Stack</span>
+                <span className="about__focus-tag">Java Backend</span>
+                <span className="about__focus-tag">REST APIs</span>
+                <span className="about__focus-tag">Firebase & Firestore</span>
+                <span className="about__focus-tag">PostgreSQL & MongoDB</span>
+              </div>
             </div>
           </div>
         </div>

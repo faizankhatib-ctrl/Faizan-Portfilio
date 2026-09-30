@@ -10,9 +10,6 @@ export default function Navbar() {
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('fk-theme');
     if (saved) return saved;
-    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
     return 'dark';
   });
 
@@ -81,11 +78,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 30);
 
       // Scroll spy for active section
       const sections = ['top', 'about', 'skills', 'experience', 'projects', 'publications', 'education', 'contact'];
-      const scrollPosition = window.scrollY + 180;
+      const scrollPosition = window.scrollY + 160;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const sectionId = sections[i];
@@ -147,7 +144,7 @@ export default function Navbar() {
           <span className="navbar__logo-name">{siteConfig.name}</span>
         </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation Links */}
         <ul className="navbar__links">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
@@ -175,7 +172,7 @@ export default function Navbar() {
             className="navbar__action-icon"
             aria-label={`${siteConfig.name} GitHub profile`}
           >
-            <Icon name="github" size={19} />
+            <Icon name="github" size={17} />
           </a>
           <a
             href={siteConfig.linkedin}
@@ -184,7 +181,7 @@ export default function Navbar() {
             className="navbar__action-icon"
             aria-label={`${siteConfig.name} LinkedIn profile`}
           >
-            <Icon name="linkedin" size={19} />
+            <Icon name="linkedin" size={17} />
           </a>
 
           {/* Share Action */}
@@ -195,18 +192,18 @@ export default function Navbar() {
             aria-label="Share portfolio or copy link"
             title="Share Portfolio"
           >
-            <Icon name="share" size={18} />
+            <Icon name="share" size={16} />
           </button>
 
-          {/* Theme Mode Toggle */}
+          {/* Theme Toggle */}
           <button
             type="button"
             className="navbar__action-icon navbar__theme-btn"
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'midnight dark' : 'standard dark'} theme`}
+            aria-label={`Switch theme to ${theme === 'dark' ? 'midnight' : 'dark'}`}
             title={theme === 'dark' ? 'Switch to Midnight Theme' : 'Switch to Obsidian Theme'}
           >
-            <Icon name={theme === 'dark' ? 'moon' : 'sparkles'} size={18} />
+            <Icon name={theme === 'dark' ? 'moon' : 'sparkles'} size={16} />
           </button>
 
           {/* Resume CTA */}
@@ -216,19 +213,19 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="btn-pill btn-pill--accent navbar__resume-cta"
           >
-            <Icon name="download" size={15} />
+            <Icon name="download" size={14} />
             <span>Resume</span>
           </a>
 
           {/* Toast */}
           {navToast && (
             <div className="navbar__toast" role="status" aria-live="polite">
-              <Icon name="check" size={14} />
+              <Icon name="check" size={13} />
               <span>{navToast}</span>
             </div>
           )}
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Hamburger Menu Toggle Button */}
           <button
             type="button"
             className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--open' : ''}`}
@@ -270,13 +267,13 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             aria-label="Close navigation"
           >
-            <Icon name="close" size={20} />
+            <Icon name="close" size={18} />
           </button>
         </div>
 
         <ul className="navbar__drawer-list">
           {navLinks.map((link, idx) => (
-            <li key={link.href} style={{ transitionDelay: `${idx * 40}ms` }}>
+            <li key={link.href} style={{ transitionDelay: `${idx * 30}ms` }}>
               <a
                 href={link.href}
                 className={`navbar__drawer-link ${activeSection === link.id ? 'navbar__drawer-link--active' : ''}`}
@@ -284,7 +281,7 @@ export default function Navbar() {
               >
                 <span className="navbar__drawer-num">0{idx + 1}</span>
                 <span>{link.label}</span>
-                <Icon name="arrowRight" size={16} className="navbar__drawer-arrow" />
+                <Icon name="arrowRight" size={15} className="navbar__drawer-arrow" />
               </a>
             </li>
           ))}
@@ -298,8 +295,8 @@ export default function Navbar() {
             className="btn btn--primary navbar__drawer-btn"
             onClick={handleLinkClick}
           >
-            <Icon name="download" size={18} />
-            Download Resume
+            <Icon name="download" size={16} />
+            <span>Download Resume</span>
           </a>
 
           <div className="navbar__drawer-socials">
@@ -310,7 +307,7 @@ export default function Navbar() {
               className="navbar__drawer-social"
               aria-label="GitHub Profile"
             >
-              <Icon name="github" size={20} />
+              <Icon name="github" size={18} />
             </a>
             <a
               href={siteConfig.linkedin}
@@ -319,7 +316,7 @@ export default function Navbar() {
               className="navbar__drawer-social"
               aria-label="LinkedIn Profile"
             >
-              <Icon name="linkedin" size={20} />
+              <Icon name="linkedin" size={18} />
             </a>
             <button
               type="button"
@@ -328,7 +325,7 @@ export default function Navbar() {
               aria-label="Share Portfolio Link"
               title="Share Portfolio"
             >
-              <Icon name="share" size={19} />
+              <Icon name="share" size={17} />
             </button>
             <button
               type="button"
@@ -336,7 +333,7 @@ export default function Navbar() {
               onClick={toggleTheme}
               aria-label="Toggle theme mode"
             >
-              <Icon name={theme === 'dark' ? 'moon' : 'sparkles'} size={18} />
+              <Icon name={theme === 'dark' ? 'moon' : 'sparkles'} size={16} />
             </button>
           </div>
         </div>

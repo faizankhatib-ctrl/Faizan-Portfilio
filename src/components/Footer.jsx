@@ -15,7 +15,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="section-wrapper">
         <div className="footer__container">
-          {/* Brand & Tagline */}
+          {/* Brand & Description */}
           <div className="footer__brand-col">
             <a href="#top" className="footer__logo" onClick={scrollToTop}>
               <span className="footer__logo-bracket">&lt;</span>
@@ -24,11 +24,11 @@ export default function Footer() {
             </a>
             <p className="footer__role-tag">{siteConfig.role}</p>
             <p className="footer__desc">
-              Designing and engineering high-impact digital products, scalable web applications, and research-backed solutions.
+              Designing and engineering high-impact digital products, scalable web applications, and research-backed software.
             </p>
           </div>
 
-          {/* Quick Navigation Links */}
+          {/* Quick Navigation */}
           <div className="footer__nav-col">
             <h4 className="footer__col-title">Navigation</h4>
             <ul className="footer__links">
@@ -53,8 +53,9 @@ export default function Footer() {
                 className="footer__social-item"
                 aria-label={`${siteConfig.name} GitHub Profile`}
               >
-                <Icon name="github" size={18} />
+                <Icon name="github" size={16} />
                 <span>GitHub</span>
+                <Icon name="arrowUpRight" size={12} className="footer__social-arrow" />
               </a>
               <a
                 href={siteConfig.linkedin}
@@ -63,26 +64,29 @@ export default function Footer() {
                 className="footer__social-item"
                 aria-label={`${siteConfig.name} LinkedIn Profile`}
               >
-                <Icon name="linkedin" size={18} />
+                <Icon name="linkedin" size={16} />
                 <span>LinkedIn</span>
+                <Icon name="arrowUpRight" size={12} className="footer__social-arrow" />
               </a>
               <a
-                href={`mailto:${siteConfig.email}?subject=${encodeURIComponent('Contact from Developer Portfolio')}`}
+                href={`mailto:${siteConfig.email}?subject=${encodeURIComponent('Portfolio Contact — Faizan Khatib')}&body=${encodeURIComponent('Hello Faizan,\n\nI visited your portfolio and would like to get in touch with you.\n\nRegards,')}`}
                 className="footer__social-item"
                 aria-label={`Email ${siteConfig.name}`}
               >
-                <Icon name="mail" size={18} />
+                <Icon name="mail" size={16} />
                 <span>Email</span>
+                <Icon name="arrowUpRight" size={12} className="footer__social-arrow" />
               </a>
               <a
                 href={siteConfig.resume}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer__social-item"
-                aria-label={`${siteConfig.name} Resume PDF`}
+                aria-label={`${siteConfig.name} Resume`}
               >
-                <Icon name="download" size={18} />
-                <span>Resume</span>
+                <Icon name="download" size={16} />
+                <span>Resume (PDF)</span>
+                <Icon name="arrowUpRight" size={12} className="footer__social-arrow" />
               </a>
             </div>
           </div>
@@ -91,7 +95,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="footer__bottom">
           <p className="footer__copyright">
-            © {currentYear} <strong className="text-white">Faizan Khatib</strong>. Designed & engineered with focus and precision.
+            © {currentYear} <strong className="text-white">{siteConfig.name}</strong>. Designed & engineered with focus and precision.
           </p>
 
           <button
@@ -101,7 +105,7 @@ export default function Footer() {
             aria-label="Back to top"
           >
             <span>Back to top</span>
-            <Icon name="arrowUpRight" size={16} />
+            <Icon name="arrowUp" size={14} />
           </button>
         </div>
       </div>

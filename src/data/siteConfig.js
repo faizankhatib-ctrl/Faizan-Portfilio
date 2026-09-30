@@ -11,7 +11,7 @@ export const siteConfig = {
   phone: '+91 79725 33832',
   location: 'Maharashtra, India',
   github: 'https://github.com/faizankhatib-ctrl',
-  linkedin: 'https://linkedin.com/in/khatibfaizan',
+  linkedin: 'https://www.linkedin.com/in/faizankhatib/',
   resume: '/resume/Faizan_Khatib.pdf',
   navLinks: [
     { label: 'About', href: '#about', id: 'about' },

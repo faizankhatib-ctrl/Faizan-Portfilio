@@ -18,61 +18,56 @@ export default function Publications() {
           </p>
         </div>
 
-        {/* Featured Publication Showcase Card */}
-        <div className="publications__showcase reveal reveal-delay-1">
-          <div className="publications__header-row">
+        {/* Distinctive Publication Card */}
+        <div className="publications__card reveal reveal-delay-1">
+          <div className="publications__card-top">
             <div className="publications__badges">
               <span className="publications__badge publications__badge--gold">
-                <Icon name="award" size={16} />
+                <Icon name="award" size={15} />
                 <span>Peer-Reviewed Paper</span>
               </span>
               <span className="publications__badge publications__badge--cyan">
-                <Icon name="calendar" size={15} />
+                <Icon name="calendar" size={14} />
                 <span>June 2026</span>
               </span>
             </div>
 
-            <div className="publications__journal-tag">
+            <span className="publications__journal-badge">
               JATIR • Vol. 2, Issue 6
-            </div>
+            </span>
           </div>
 
           <h3 className="publications__title">
             Digital Minds, Troubled Hearts: A Survey on Technology and Mental Health Among Young Adults
           </h3>
 
-          <div className="publications__meta-info">
-            <div className="publications__meta-item">
+          <div className="publications__metadata">
+            <div className="publications__meta-row">
               <span className="publications__meta-label">Journal:</span>
-              <span className="publications__meta-val">
+              <span className="publications__meta-value">
                 Journal of Academic Trends & Innovative Research (JATIR)
               </span>
             </div>
-            <div className="publications__meta-item">
+            <div className="publications__meta-row">
               <span className="publications__meta-label">Recognition:</span>
-              <span className="publications__meta-val">
-                Awarded Certificate of Research Publication by the Editorial Board
+              <span className="publications__meta-value">
+                Awarded Certificate of Research Publication by Editorial Board
               </span>
             </div>
           </div>
 
           <p className="publications__abstract">
-            Co-authored a comprehensive peer-reviewed survey study exploring how prolonged smartphone usage, social media
-            algorithms, and emerging AI technologies influence the psychological well-being and daily mental health of young
-            adults. The study utilizes a mixed-methods methodology surveying undergraduate students in India to analyze digital
-            consumption patterns and cognitive impact.
+            Co-authored a comprehensive peer-reviewed survey study exploring how prolonged smartphone usage, social media algorithms, and emerging AI technologies influence the psychological well-being and daily mental health of young adults. The study utilizes a mixed-methods methodology surveying undergraduate students in India to analyze digital consumption patterns and cognitive impact.
           </p>
 
-          {/* Co-Authors & Impact */}
-          <div className="publications__authors-box">
+          <div className="publications__authors">
             <span className="publications__authors-label">Co-Authors:</span>
             <span className="publications__authors-names">
               Fakir Mohammad Kasim Salim Shah, Shaikh Ammar Shaikh Vajid, Prof. Kalpesh Marathe
             </span>
           </div>
 
-          {/* Research Tags & CTA */}
-          <div className="publications__footer-row">
+          <div className="publications__footer">
             <div className="publications__tags">
               <span className="publications__tag">Mental Health & Technology</span>
               <span className="publications__tag">AI & Social Impact</span>
@@ -84,10 +79,10 @@ export default function Publications() {
               href="https://jatir.org/article.php?paperid=140305"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn--primary publications__read-btn"
+              className="btn btn--primary publications__btn"
               aria-label="Read full research paper on JATIR"
             >
-              <Icon name="externalLink" size={18} />
+              <Icon name="externalLink" size={16} />
               <span>Read Paper on JATIR</span>
             </a>
           </div>

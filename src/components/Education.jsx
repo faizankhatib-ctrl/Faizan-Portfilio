@@ -7,7 +7,7 @@ const educationData = [
     period: '2023 — 2027',
     status: 'In Progress',
     iconName: 'graduationCap',
-    highlight: 'Core Focus: Software Engineering, Data Structures, Web Systems & Computing',
+    highlight: 'Software Engineering, Data Structures, Web Systems & Computing',
   },
   {
     degree: 'Higher Secondary Certificate (12th HSC)',
@@ -15,7 +15,7 @@ const educationData = [
     period: '2021 — 2023',
     status: 'Completed',
     iconName: 'bookOpen',
-    highlight: 'Score: 72.00%',
+    highlight: 'Final Score: 72.00%',
   },
   {
     degree: 'Secondary School Certificate (10th SSC)',
@@ -23,7 +23,7 @@ const educationData = [
     period: '2020 — 2021',
     status: 'Completed',
     iconName: 'bookOpen',
-    highlight: 'Score: 70.40%',
+    highlight: 'Final Score: 70.40%',
   },
 ];
 
@@ -74,17 +74,17 @@ export default function Education() {
             Education & <span className="text-accent">certifications</span>.
           </h2>
           <p className="section-subtitle">
-            Formal computer technology studies and continuous self-driven technical specializations.
+            Formal computer technology education and continuous self-driven technical specializations.
           </p>
         </div>
 
-        {/* Dual Bento Columns */}
+        {/* Dual Column Layout */}
         <div className="education__grid">
-          {/* Left Column: Formal Education */}
+          {/* Formal Degree & Schooling */}
           <div className="education__col reveal">
             <div className="education__col-header">
               <div className="education__col-icon">
-                <Icon name="graduationCap" size={22} />
+                <Icon name="graduationCap" size={20} />
               </div>
               <h3 className="education__col-title">Degree & Schooling</h3>
             </div>
@@ -92,13 +92,10 @@ export default function Education() {
             <div className="education__cards-list">
               {educationData.map((item, idx) => (
                 <div className="education__card" key={idx}>
-                  <div className="education__card-top">
-                    <div className="education__card-icon-wrap">
-                      <Icon name={item.iconName} size={18} />
-                    </div>
-                    <div className="education__card-meta">
-                      <span className="education__period-tag">{item.period}</span>
-                      <span className={`education__status-tag ${item.status === 'In Progress' ? 'education__status-tag--active' : ''}`}>
+                  <div className="education__card-header">
+                    <div className="education__card-badge-row">
+                      <span className="education__period-badge">{item.period}</span>
+                      <span className={`education__status-badge ${item.status === 'In Progress' ? 'education__status-badge--active' : ''}`}>
                         {item.status}
                       </span>
                     </div>
@@ -112,29 +109,28 @@ export default function Education() {
             </div>
           </div>
 
-          {/* Right Column: Certifications */}
+          {/* Professional Certifications */}
           <div className="education__col reveal reveal-delay-2">
             <div className="education__col-header">
               <div className="education__col-icon">
-                <Icon name="award" size={22} />
+                <Icon name="award" size={20} />
               </div>
               <h3 className="education__col-title">Professional Certifications</h3>
             </div>
 
             <div className="education__cert-list">
               {certificationsData.map((cert, idx) => (
-                <div className="education__cert-card" key={idx}>
-                  <div className="education__cert-indicator">
+                <div className="education__cert-item" key={idx}>
+                  <div className="education__cert-dot-col">
                     <span className="education__cert-dot"></span>
                   </div>
-
                   <div className="education__cert-body">
                     <div className="education__cert-header">
                       <h4 className="education__cert-title">{cert.title}</h4>
                       <span className="education__cert-year">{cert.year}</span>
                     </div>
                     <p className="education__cert-issuer">{cert.issuer}</p>
-                    <span className="education__cert-category">{cert.category}</span>
+                    <span className="education__cert-badge">{cert.category}</span>
                   </div>
                 </div>
               ))}
