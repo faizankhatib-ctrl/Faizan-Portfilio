@@ -2,5 +2,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap configuration (update with custom domain upon deployment)
-Sitemap: /sitemap.xml
+Sitemap: https://faizan-portfolio.vercel.app/sitemap.xml
