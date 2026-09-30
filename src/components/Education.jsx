@@ -1,89 +1,140 @@
-const education = [
+import Icon from './Icon';
+
+const educationData = [
   {
     degree: 'B.Tech in Computer Technology',
     institution: 'Ahinsa Institute of Technology, Dondaicha, Maharashtra',
     period: '2023 — 2027',
-    icon: '🎓',
+    status: 'In Progress',
+    iconName: 'graduationCap',
+    highlight: 'Core Focus: Software Engineering, Data Structures, Web Systems & Computing',
   },
   {
-    degree: 'HSC (12th), Maharashtra State Board',
-    institution: 'Percentage: 72.00%',
-    period: '2023',
-    icon: '📜',
+    degree: 'Higher Secondary Certificate (12th HSC)',
+    institution: 'Maharashtra State Board',
+    period: '2021 — 2023',
+    status: 'Completed',
+    iconName: 'bookOpen',
+    highlight: 'Score: 72.00%',
   },
   {
-    degree: 'SSC (10th), Maharashtra State Board',
-    institution: 'Percentage: 70.40%',
-    period: '2021',
-    icon: '📜',
+    degree: 'Secondary School Certificate (10th SSC)',
+    institution: 'Maharashtra State Board',
+    period: '2020 — 2021',
+    status: 'Completed',
+    iconName: 'bookOpen',
+    highlight: 'Score: 70.40%',
   },
 ];
 
-const certifications = [
+const certificationsData = [
   {
     title: 'Web Development Course',
-    issuer: 'Internshala Trainings, Scholiverse Educare Pvt. Ltd.',
+    issuer: 'Internshala Trainings, Scholiverse Educare',
     year: '2025',
+    category: 'Web Dev',
   },
   {
     title: 'Machine Learning Course — Grade A',
     issuer: 'Scholiverse Educare Private Limited',
     year: '2025',
+    category: 'AI / ML',
   },
   {
     title: 'Introduction to Data Science',
     issuer: 'Simplilearn SkillUp',
     year: '2026',
+    category: 'Data Science',
   },
   {
     title: 'Deep Learning for Beginners',
     issuer: 'Simplilearn SkillUp',
     year: '2026',
+    category: 'Deep Learning',
   },
   {
     title: 'Programming with Python 3.X',
     issuer: 'Simplilearn SkillUp',
     year: '2026',
+    category: 'Python',
   },
 ];
 
 export default function Education() {
   return (
-    <section className="education" id="education">
+    <section className="education section-spacing" id="education">
       <div className="section-wrapper">
-        <div className="section-label reveal">
-          <span className="section-label__number">06</span>
-          <span className="section-label__line"></span>
-          <span className="section-label__text">Education & Certifications</span>
+        {/* Section Header */}
+        <div className="section-header reveal">
+          <div className="section-tag">
+            <span className="section-tag__num">06</span>
+            <span className="section-tag__label">Academic Foundation</span>
+          </div>
+          <h2 className="section-title">
+            Education & <span className="text-accent">certifications</span>.
+          </h2>
+          <p className="section-subtitle">
+            Formal computer technology studies and continuous self-driven technical specializations.
+          </p>
         </div>
 
+        {/* Dual Bento Columns */}
         <div className="education__grid">
+          {/* Left Column: Formal Education */}
           <div className="education__col reveal">
-            <h3 className="education__col-title">Education</h3>
-            <div className="education__items">
-              {education.map((edu) => (
-                <div className="education__item" key={edu.degree}>
-                  <span className="education__icon">{edu.icon}</span>
-                  <div className="education__details">
-                    <h4 className="education__degree">{edu.degree}</h4>
-                    <p className="education__institution">{edu.institution}</p>
-                    <span className="education__period">{edu.period}</span>
+            <div className="education__col-header">
+              <div className="education__col-icon">
+                <Icon name="graduationCap" size={22} />
+              </div>
+              <h3 className="education__col-title">Degree & Schooling</h3>
+            </div>
+
+            <div className="education__cards-list">
+              {educationData.map((item, idx) => (
+                <div className="education__card" key={idx}>
+                  <div className="education__card-top">
+                    <div className="education__card-icon-wrap">
+                      <Icon name={item.iconName} size={18} />
+                    </div>
+                    <div className="education__card-meta">
+                      <span className="education__period-tag">{item.period}</span>
+                      <span className={`education__status-tag ${item.status === 'In Progress' ? 'education__status-tag--active' : ''}`}>
+                        {item.status}
+                      </span>
+                    </div>
                   </div>
+
+                  <h4 className="education__degree-title">{item.degree}</h4>
+                  <p className="education__institution-name">{item.institution}</p>
+                  <p className="education__highlight-text">{item.highlight}</p>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Right Column: Certifications */}
           <div className="education__col reveal reveal-delay-2">
-            <h3 className="education__col-title">Certifications</h3>
-            <div className="education__items">
-              {certifications.map((cert) => (
-                <div className="education__item education__item--cert" key={cert.title}>
-                  <span className="education__cert-dot"></span>
-                  <div className="education__details">
-                    <h4 className="education__degree">{cert.title}</h4>
-                    <p className="education__institution">{cert.issuer}</p>
-                    <span className="education__period">{cert.year}</span>
+            <div className="education__col-header">
+              <div className="education__col-icon">
+                <Icon name="award" size={22} />
+              </div>
+              <h3 className="education__col-title">Professional Certifications</h3>
+            </div>
+
+            <div className="education__cert-list">
+              {certificationsData.map((cert, idx) => (
+                <div className="education__cert-card" key={idx}>
+                  <div className="education__cert-indicator">
+                    <span className="education__cert-dot"></span>
+                  </div>
+
+                  <div className="education__cert-body">
+                    <div className="education__cert-header">
+                      <h4 className="education__cert-title">{cert.title}</h4>
+                      <span className="education__cert-year">{cert.year}</span>
+                    </div>
+                    <p className="education__cert-issuer">{cert.issuer}</p>
+                    <span className="education__cert-category">{cert.category}</span>
                   </div>
                 </div>
               ))}

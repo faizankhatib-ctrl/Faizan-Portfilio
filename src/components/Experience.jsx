@@ -6,97 +6,142 @@ const experiences = [
     company: 'ITView',
     period: 'Feb 2026 — Sep 2026',
     status: 'Ongoing',
+    location: 'Pune / Remote',
+    type: 'Internship',
     description: [
-      'Working as a Full Stack Developer Intern, contributing to both front-end and back-end development using Java-based technologies.',
-      'Gaining hands-on experience in full-stack application development and software engineering practices as part of a structured internship program.',
+      'Contributing to both front-end and back-end application modules using Java-based technologies.',
+      'Gaining rigorous hands-on engineering experience in full-stack software architecture and production software practices.',
+      'Developing maintainable components and collaborating in a structured development environment.',
     ],
-    tags: ['Java', 'Full Stack', 'Software Engineering'],
+    tags: ['Java', 'Full Stack', 'Software Engineering', 'REST APIs'],
   },
   {
     role: 'Frontend Developer Intern',
     company: 'Vier Labs',
     companyUrl: 'https://www.vierlabs.com',
     period: 'Oct 2025 — Jan 2026',
+    status: 'Completed',
+    location: 'Agency Client Project',
+    type: 'Internship',
     description: [
-      'Worked as a Frontend Developer on a live client project at Vier Labs, an agency, responsible for developing front-end components.',
-      'Built and implemented UI components using the MERN stack (MongoDB, Express.js, React.js, Node.js).',
-      'Integrated Firebase and Firestore for real-time database functionality and data management within the application.',
-      'Collaborated with the agency\'s development team to deliver production-ready features on schedule.',
+      'Served as Frontend Developer on a live production client project at Vier Labs agency.',
+      'Architected and implemented responsive UI components leveraging the MERN stack (MongoDB, Express.js, React.js, Node.js).',
+      'Integrated Firebase and Firestore for real-time data persistence, authentication, and state synchronization.',
+      'Collaborated directly with senior engineers and agency stakeholders to ship features on milestone deadlines.',
     ],
-    tags: ['React.js', 'MERN Stack', 'Firebase', 'Firestore'],
+    tags: ['React.js', 'MERN Stack', 'Firebase', 'Firestore', 'UI Architecture'],
   },
   {
     role: 'Web Development Intern',
     company: 'Codveda Technologies',
     companyUrl: 'https://www.codveda.com',
     period: 'Aug 2025 — Sep 2025',
+    status: 'Completed',
+    location: 'Remote',
+    type: 'Internship',
     description: [
-      'Completed a one-month internship in Web Development at Codveda Technologies.',
-      'Worked on developing and maintaining front-end and back-end components for web-based projects.',
-      'Enhanced skills in HTML, CSS, JavaScript, and Python while contributing to live project modules.',
+      'Engineered and maintained core front-end and back-end components for client web projects.',
+      'Expanded practical development skills across HTML5, CSS3, JavaScript ES6+, and Python.',
+      'Delivered tested code modules and resolved interface responsiveness challenges.',
     ],
-    tags: ['HTML', 'CSS', 'JavaScript', 'Python'],
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'Python', 'Web Dev'],
   },
 ];
 
 export default function Experience() {
   return (
-    <section className="experience" id="experience">
+    <section className="experience section-spacing" id="experience">
       <div className="section-wrapper">
-        <div className="section-label reveal">
-          <span className="section-label__number">03</span>
-          <span className="section-label__line"></span>
-          <span className="section-label__text">Experience</span>
+        {/* Section Header */}
+        <div className="section-header reveal">
+          <div className="section-tag">
+            <span className="section-tag__num">03</span>
+            <span className="section-tag__label">Work History</span>
+          </div>
+          <h2 className="section-title">
+            Internships & <span className="text-accent">practical experience</span>.
+          </h2>
+          <p className="section-subtitle">
+            Hands-on software development across agencies, startups, and full-stack programs.
+          </p>
         </div>
 
+        {/* Timeline Container */}
         <div className="experience__timeline">
-          {experiences.map((exp, i) => (
-            <div className={`experience__item reveal reveal-delay-${i + 1}`} key={exp.company}>
-              <div className="experience__dot-line">
-                <div className="experience__dot"></div>
-                {i < experiences.length - 1 && <div className="experience__line"></div>}
+          <div className="experience__timeline-line" aria-hidden="true"></div>
+
+          {experiences.map((exp, index) => (
+            <div
+              className={`experience__item reveal reveal-delay-${index + 1}`}
+              key={exp.company}
+            >
+              {/* Timeline Node Indicator */}
+              <div className="experience__node">
+                <span className={`experience__node-dot ${exp.status === 'Ongoing' ? 'experience__node-dot--active' : ''}`}>
+                  {exp.status === 'Ongoing' && <span className="experience__node-ping"></span>}
+                </span>
               </div>
 
+              {/* Experience Card */}
               <div className="experience__card">
                 <div className="experience__card-header">
-                  <div>
+                  <div className="experience__role-box">
+                    <div className="experience__badge-row">
+                      <span className="experience__type-badge">{exp.type}</span>
+                      {exp.status === 'Ongoing' ? (
+                        <span className="experience__status-pill experience__status-pill--active">
+                          <span className="experience__status-dot"></span>
+                          Ongoing
+                        </span>
+                      ) : (
+                        <span className="experience__status-pill">
+                          Completed
+                        </span>
+                      )}
+                    </div>
                     <h3 className="experience__role">{exp.role}</h3>
-                    <div className="experience__company-row">
+                    <div className="experience__company-wrap">
                       {exp.companyUrl ? (
                         <a
                           href={exp.companyUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="experience__company experience__company--link"
+                          className="experience__company-link"
+                          aria-label={`${exp.company} website`}
                         >
-                          {exp.company}
+                          <span className="experience__company-name">{exp.company}</span>
                           <Icon name="externalLink" size={14} />
                         </a>
                       ) : (
-                        <span className="experience__company">{exp.company}</span>
+                        <span className="experience__company-name">{exp.company}</span>
                       )}
+                      <span className="experience__location-divider">•</span>
+                      <span className="experience__location">{exp.location}</span>
                     </div>
                   </div>
-                  <div className="experience__meta">
-                    <span className="experience__period">{exp.period}</span>
-                    {exp.status && (
-                      <span className="experience__status">
-                        <span className="experience__status-dot"></span>
-                        {exp.status}
-                      </span>
-                    )}
+
+                  <div className="experience__period-badge">
+                    <Icon name="calendar" size={15} />
+                    <span>{exp.period}</span>
                   </div>
                 </div>
 
+                {/* Responsibilities list */}
                 <ul className="experience__list">
-                  {exp.description.map((item, j) => (
-                    <li key={j}>{item}</li>
+                  {exp.description.map((item, i) => (
+                    <li key={i} className="experience__list-item">
+                      <span className="experience__bullet" aria-hidden="true">▹</span>
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
 
+                {/* Tech tags */}
                 <div className="experience__tags">
                   {exp.tags.map((tag) => (
-                    <span className="experience__tag" key={tag}>{tag}</span>
+                    <span className="experience__tag" key={tag}>
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>

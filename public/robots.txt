@@ -1,0 +1,6 @@
+# Robots.txt for Faizan Khatib Developer Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap configuration (update with custom domain upon deployment)
+Sitemap: /sitemap.xml
