@@ -1,12 +1,13 @@
 /**
  * Centralized Site Configuration & Verified Profile Links
- * Faizan Khatib — Full Stack Developer Portfolio
+ * Faizan Khatib — Full Stack Python Developer Portfolio
  */
 
 export const siteConfig = {
   name: 'Faizan Khatib',
-  role: 'Full Stack Developer',
-  url: 'https://faizan-portfolio.vercel.app',
+  role: 'Full Stack Python Developer',
+  supportingRole: 'Full Stack Web Developer | B.Tech Computer Technology Student',
+  url: 'https://faizank.vercel.app',
   email: 'khatibfaizan141@gmail.com',
   phone: '+91 79725 33832',
   location: 'Maharashtra, India',

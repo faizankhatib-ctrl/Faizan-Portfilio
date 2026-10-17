@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://faizan-portfolio.vercel.app/sitemap.xml
+Sitemap: https://faizank.vercel.app/sitemap.xml

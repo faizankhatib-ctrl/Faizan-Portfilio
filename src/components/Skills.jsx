@@ -1,115 +1,159 @@
-import { useState } from 'react';
 import Icon from './Icon';
 
-const skillCategories = [
-  { id: 'all', label: 'All Stack' },
-  { id: 'frontend', label: 'Frontend' },
-  { id: 'backend', label: 'Backend' },
-  { id: 'languages', label: 'Languages' },
-  { id: 'database', label: 'Database & Cloud' },
-  { id: 'tools', label: 'Tools' },
-];
-
-const skillsData = [
-  // Languages
-  { name: 'Java', category: 'languages', icon: 'code', focus: 'Enterprise & OOP' },
-  { name: 'Python', category: 'languages', icon: 'code', focus: 'Scripting & APIs' },
-  { name: 'JavaScript', category: 'languages', icon: 'code', focus: 'ES6+ & Modern Web' },
-  { name: 'C', category: 'languages', icon: 'code', focus: 'System Fundamentals' },
-  { name: 'C++', category: 'languages', icon: 'code', focus: 'Data Structures & Algorithms' },
-
-  // Frontend
-  { name: 'React.js', category: 'frontend', icon: 'monitor', focus: 'Component Architecture & Hooks' },
-  { name: 'JavaScript (Frontend)', category: 'frontend', icon: 'code', focus: 'DOM & State Management' },
-  { name: 'HTML5', category: 'frontend', icon: 'monitor', focus: 'Semantic & Accessible Markup' },
-  { name: 'CSS3', category: 'frontend', icon: 'monitor', focus: 'Flexbox, Grid & Animations' },
-
-  // Backend
-  { name: 'Node.js', category: 'backend', icon: 'server', focus: 'Asynchronous Event Runtime' },
-  { name: 'Express.js', category: 'backend', icon: 'server', focus: 'RESTful API Routing & Middleware' },
-  { name: 'MERN Stack', category: 'backend', icon: 'layers', focus: 'End-to-End Web Architecture' },
-  { name: 'Java Full Stack', category: 'backend', icon: 'server', focus: 'Backend Business Logic' },
-  { name: 'REST APIs', category: 'backend', icon: 'server', focus: 'JSON API Design & Auth' },
-
-  // Database & Cloud
-  { name: 'MongoDB', category: 'database', icon: 'database', focus: 'Document Storage & Aggregation' },
-  { name: 'Firebase', category: 'database', icon: 'database', focus: 'Cloud Auth & Realtime Sync' },
-  { name: 'Firestore', category: 'database', icon: 'database', focus: 'NoSQL Cloud Collections' },
-  { name: 'SQL / PostgreSQL', category: 'database', icon: 'database', focus: 'Relational Schemas & Queries' },
-
-  // Tools
-  { name: 'Git', category: 'tools', icon: 'wrench', focus: 'Version Control & Branching' },
-  { name: 'GitHub', category: 'tools', icon: 'github', focus: 'CI/CD & Repository Management' },
-  { name: 'VS Code', category: 'tools', icon: 'wrench', focus: 'Primary Development IDE' },
-  { name: 'IntelliJ IDEA', category: 'tools', icon: 'wrench', focus: 'Java & Enterprise Workflows' },
-  { name: 'PyCharm', category: 'tools', icon: 'wrench', focus: 'Python Environment' },
+const capabilityGroups = [
+  {
+    index: '01',
+    kicker: '01 / PROGRAMMING & WEB',
+    title: 'Programming & Web Languages',
+    description: 'Core languages for building web applications and backend systems.',
+    skills: [
+      { name: 'Python', icon: 'code', focus: 'Backend & Scripting' },
+      { name: 'JavaScript', icon: 'code', focus: 'ES6+ & Modern Web' },
+      { name: 'HTML5', icon: 'monitor', focus: 'Semantic Markup' },
+      { name: 'CSS3', icon: 'monitor', focus: 'Styling & Layouts' },
+      { name: 'SQL', icon: 'database', focus: 'Relational Queries' },
+    ],
+  },
+  {
+    index: '02',
+    kicker: '02 / FRONTEND',
+    title: 'Frontend Development',
+    description: 'Component architecture, responsive layouts, and modern web standards.',
+    skills: [
+      { name: 'React.js', icon: 'monitor', focus: 'Component Architecture & Hooks' },
+      { name: 'Tailwind CSS', icon: 'monitor', focus: 'Utility-First Styling' },
+      { name: 'Responsive Web Design', icon: 'monitor', focus: 'Mobile-First Layouts' },
+      { name: 'Progressive Web Apps', icon: 'globe', focus: 'Offline & Performance' },
+    ],
+  },
+  {
+    index: '03',
+    kicker: '03 / BACKEND',
+    title: 'Backend & APIs',
+    description: 'Server architectures, RESTful API routing, and full-stack runtime layers.',
+    skills: [
+      { name: 'Node.js', icon: 'server', focus: 'Asynchronous Event Runtime' },
+      { name: 'Express.js', icon: 'server', focus: 'RESTful API Routing & Middleware' },
+      { name: 'REST APIs', icon: 'server', focus: 'API Design & Integration' },
+      { name: 'Python Backend', icon: 'code', focus: 'Flask & FastAPI' },
+    ],
+  },
+  {
+    index: '04',
+    kicker: '04 / DATABASES',
+    title: 'Databases & Backend Services',
+    description: 'Document storage, relational schemas, and cloud backend services.',
+    skills: [
+      { name: 'MongoDB', icon: 'database', focus: 'Document Storage & Aggregation' },
+      { name: 'Supabase', icon: 'database', focus: 'PostgreSQL & Auth Services' },
+      { name: 'Firebase', icon: 'database', focus: 'Cloud Auth & Realtime Sync' },
+      { name: 'Firestore', icon: 'database', focus: 'NoSQL Cloud Collections' },
+      { name: 'SQL Databases', icon: 'database', focus: 'Relational Schemas & Queries' },
+    ],
+  },
+  {
+    index: '05',
+    kicker: '05 / TOOLS & DEPLOYMENT',
+    title: 'Tools & Deployment',
+    description: 'Version control, development tools, and cloud deployment platforms.',
+    skills: [
+      { name: 'Git', icon: 'wrench', focus: 'Version Control & Branching' },
+      { name: 'GitHub', icon: 'github', focus: 'Repository Management' },
+      { name: 'Postman', icon: 'wrench', focus: 'API Testing & Documentation' },
+      { name: 'VS Code', icon: 'wrench', focus: 'Primary Development IDE' },
+      { name: 'Vercel', icon: 'globe', focus: 'Frontend Deployment' },
+      { name: 'Render', icon: 'server', focus: 'Backend Deployment' },
+      { name: 'Netlify', icon: 'globe', focus: 'Static Site Deployment' },
+    ],
+  },
+  {
+    index: '06',
+    kicker: '06 / ADDITIONAL',
+    title: 'Additional Skills',
+    description: 'Problem-solving practices and development methodologies.',
+    skills: [
+      { name: 'API Validation & Error Handling', icon: 'code', focus: 'Robust Error Management' },
+      { name: 'Authentication & Authorization', icon: 'server', focus: 'OAuth, JWT & Session Auth' },
+      { name: 'Debugging', icon: 'wrench', focus: 'Systematic Issue Resolution' },
+      { name: 'Problem-Solving', icon: 'cpu', focus: 'Analytical Thinking' },
+      { name: 'AI-Assisted Development', icon: 'cpu', focus: 'Productivity Enhancement' },
+    ],
+  },
 ];
 
 export default function Skills() {
-  const [activeTab, setActiveTab] = useState('all');
-
-  const filteredSkills = activeTab === 'all'
-    ? skillsData
-    : skillsData.filter((s) => s.category === activeTab);
-
   return (
-    <section className="skills section-spacing" id="skills">
+    <section className="skills section-spacing" id="skills" aria-label="Technical Skills and Capabilities">
       <div className="section-wrapper">
         {/* Section Header */}
         <div className="section-header reveal">
           <div className="section-tag">
             <span className="section-tag__num">02</span>
-            <span className="section-tag__label">Skills & Stack</span>
+            <span className="section-tag__label">TECHNICAL EXPERTISE</span>
           </div>
           <h2 className="section-title">
-            Technologies & tools in my <span className="text-accent">toolkit</span>.
+            Tools I build <span className="text-accent">with</span>.
           </h2>
           <p className="section-subtitle">
-            Curated technical skills built through real internships, software coursework, and practical development.
+            A practical stack spanning frontend, backend, databases, programming languages, and developer tooling.
           </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="skills__tabs reveal reveal-delay-1" role="tablist" aria-label="Skills Category Filters">
-          {skillCategories.map((cat) => {
-            const count = cat.id === 'all'
-              ? skillsData.length
-              : skillsData.filter((s) => s.category === cat.id).length;
+        {/* Engineering Capability Map Grid */}
+        <div className="skills__capability-grid">
+          {capabilityGroups.map((group, gIdx) => {
+            const isWide = group.index === '05' || group.index === '06';
 
             return (
-              <button
-                key={cat.id}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === cat.id}
-                className={`skills__tab-btn ${activeTab === cat.id ? 'skills__tab-btn--active' : ''}`}
-                onClick={() => setActiveTab(cat.id)}
+              <article
+                key={group.index}
+                className={`skills__capability-card reveal reveal-delay-${(gIdx % 3) + 1} ${
+                  isWide ? 'skills__capability-card--wide' : ''
+                }`}
               >
-                <span>{cat.label}</span>
-                <span className="skills__tab-count">{count}</span>
-              </button>
+                {/* Card Header */}
+                <div className="skills__capability-header">
+                  <div className="skills__capability-meta-top">
+                    <span className="skills__capability-kicker font-mono">{group.kicker}</span>
+                    <span className="skills__capability-count font-mono">
+                      {group.skills.length} SKILLS
+                    </span>
+                  </div>
+                  <h3 className="skills__capability-title">{group.title}</h3>
+                  <p className="skills__capability-desc">{group.description}</p>
+                </div>
+
+                {/* Skill Chips */}
+                <div
+                  className={`skills__chips-container ${
+                    isWide ? 'skills__chips-container--grid' : ''
+                  }`}
+                  role="list"
+                  aria-label={`${group.title} Skills`}
+                >
+                  {group.skills.map((skill) => (
+                    <div className="skills__chip" key={skill.name} role="listitem">
+                      <div className="skills__chip-icon" aria-hidden="true">
+                        <Icon name={skill.icon} size={15} />
+                      </div>
+                      <div className="skills__chip-text">
+                        <span className="skills__chip-name">{skill.name}</span>
+                        <span className="skills__chip-focus">{skill.focus}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </article>
             );
           })}
         </div>
 
-        {/* Compact Skills Grid */}
-        <div className="skills__grid" role="tabpanel">
-          {filteredSkills.map((skill, index) => (
-            <div
-              key={skill.name}
-              className="skills__item reveal"
-              style={{ animationDelay: `${index * 30}ms` }}
-            >
-              <div className="skills__item-icon-wrap">
-                <Icon name={skill.icon} size={18} />
-              </div>
-              <div className="skills__item-content">
-                <h3 className="skills__item-name">{skill.name}</h3>
-                <span className="skills__item-focus">{skill.focus}</span>
-              </div>
-              <span className="skills__item-category-tag">{skill.category}</span>
-            </div>
-          ))}
+        {/* Technical Footer Indicator */}
+        <div className="skills__footer-indicator reveal reveal-delay-2">
+          <span className="skills__footer-dot" aria-hidden="true"></span>
+          <span className="font-mono">
+            STACK EVOLVING THROUGH PROJECTS, INTERNSHIPS & RESEARCH
+          </span>
         </div>
       </div>
     </section>

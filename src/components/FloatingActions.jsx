@@ -1,10 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Icon from './Icon';
 import { siteConfig } from '../data/siteConfig';
 
 export default function FloatingActions() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [shareToast, setShareToast] = useState('');
+  const toastTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,8 +84,11 @@ export default function FloatingActions() {
   };
 
   const triggerToast = (message) => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
     setShareToast(message);
-    setTimeout(() => {
+    toastTimeoutRef.current = setTimeout(() => {
       setShareToast('');
     }, 3000);
   };
@@ -86,7 +98,7 @@ export default function FloatingActions() {
       {/* Toast Notification */}
       {shareToast && (
         <div className="floating-toast" role="status" aria-live="polite">
-          <Icon name="check" size={16} />
+          <Icon name="check" size={15} />
           <span>{shareToast}</span>
         </div>
       )}
@@ -101,8 +113,8 @@ export default function FloatingActions() {
           aria-label="Share this portfolio or copy link"
           title="Share Portfolio"
         >
-          <Icon name="share" size={18} />
-          <span className="floating-btn__tooltip">Share Portfolio</span>
+          <Icon name="share" size={17} />
+          <span className="floating-btn__tooltip font-mono">Share Portfolio</span>
         </button>
 
         {/* Back to Top Button */}
@@ -113,8 +125,8 @@ export default function FloatingActions() {
           aria-label="Scroll back to top of page"
           title="Back to Top"
         >
-          <Icon name="arrowUp" size={18} />
-          <span className="floating-btn__tooltip">Back to Top</span>
+          <Icon name="arrowUp" size={17} />
+          <span className="floating-btn__tooltip font-mono">Back to Top</span>
         </button>
       </aside>
     </>

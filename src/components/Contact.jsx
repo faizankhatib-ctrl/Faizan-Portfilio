@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Icon from './Icon';
 import { siteConfig } from '../data/siteConfig';
 
@@ -11,10 +11,19 @@ export default function Contact() {
   });
 
   const [copied, setCopied] = useState(false);
+  const copyTimeoutRef = useRef(null);
 
   const contactEmail = siteConfig.email;
   const contactPhone = siteConfig.phone;
   const contactLocation = siteConfig.location;
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +32,7 @@ export default function Contact() {
 
   const buildMailtoLink = () => {
     const subjectText = formData.subject.trim() || 'Portfolio Contact — Faizan Khatib';
-    
+
     let bodyText = formData.message.trim();
     if (!bodyText) {
       bodyText = 'Hello Faizan,\n\nI visited your portfolio and would like to get in touch with you.\n\nRegards,';
@@ -40,12 +49,19 @@ export default function Contact() {
     window.location.href = mailtoUrl;
   };
 
+  const triggerCopySuccess = () => {
+    if (copyTimeoutRef.current) {
+      clearTimeout(copyTimeoutRef.current);
+    }
+    setCopied(true);
+    copyTimeoutRef.current = setTimeout(() => setCopied(false), 2500);
+  };
+
   const copyEmailToClipboard = () => {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(contactEmail)
         .then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 2500);
+          triggerCopySuccess();
         })
         .catch(() => {
           fallbackCopy(contactEmail);
@@ -68,8 +84,7 @@ export default function Contact() {
       const successful = document.execCommand('copy');
       document.body.removeChild(textArea);
       if (successful) {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
+        triggerCopySuccess();
       }
     } catch {
       // Graceful fallback
@@ -79,148 +94,167 @@ export default function Contact() {
   const currentMailtoLink = buildMailtoLink();
 
   return (
-    <section className="contact section-spacing" id="contact">
+    <section className="contact section-spacing" id="contact" aria-label="Contact and Inquiries">
       <div className="section-wrapper">
         {/* Section Header */}
         <div className="section-header reveal">
           <div className="section-tag">
             <span className="section-tag__num">07</span>
-            <span className="section-tag__label">Get In Touch</span>
+            <span className="section-tag__label">LET'S CONNECT</span>
           </div>
           <h2 className="section-title">
-            Let's build something <span className="text-accent">meaningful</span> together.
+            Have a project or <span className="text-accent">opportunity</span>?
           </h2>
           <p className="section-subtitle">
-            Whether you have an internship opportunity, a project to collaborate on, or just want to connect.
+            Open to software engineering, full-stack development, and internship opportunities.
           </p>
         </div>
 
         {/* Contact Layout Grid */}
         <div className="contact__grid">
-          {/* Left Column: Direct Info Cards */}
+          {/* Left Column: Direct Communication & Profiles */}
           <div className="contact__info-col reveal">
             <div className="contact__direct-card">
-              <h3 className="contact__direct-title">Direct Channels</h3>
+              <div className="contact__card-badge-row">
+                <span className="contact__channel-kicker font-mono">DIRECT CHANNELS</span>
+                <span className="contact__status-pill font-mono">
+                  <span className="contact__status-dot" aria-hidden="true"></span>
+                  REACH OUT DIRECTLY
+                </span>
+              </div>
+
+              <h3 className="contact__direct-title">Let's start a conversation</h3>
               <p className="contact__direct-subtitle">
-                Feel free to reach out directly via email, phone, or professional networks.
+                Feel free to email me directly, connect on professional networks, or download my verified resume.
               </p>
 
-              <div className="contact__cards-list">
-                {/* Email Card */}
-                <div className="contact__item-card">
-                  <div className="contact__item-icon">
-                    <Icon name="mail" size={18} />
+              {/* Primary Actions */}
+              <div className="contact__primary-actions">
+                <a
+                  href={`mailto:${contactEmail}?subject=${encodeURIComponent('Software Engineering Opportunity — Faizan Khatib')}&body=${encodeURIComponent('Hello Faizan,\n\nI came across your portfolio and would like to connect with you regarding an opportunity.\n\nRegards,')}`}
+                  className="btn btn--primary contact__main-email-btn"
+                  aria-label={`Send an email to ${contactEmail}`}
+                >
+                  <Icon name="mail" size={16} />
+                  <span>EMAIL ME</span>
+                  <Icon name="arrowRight" size={14} />
+                </a>
+
+                <button
+                  type="button"
+                  className="btn btn--secondary contact__copy-email-btn font-mono"
+                  onClick={copyEmailToClipboard}
+                  aria-label="Copy Faizan Khatib email address to clipboard"
+                >
+                  <Icon name={copied ? 'check' : 'copy'} size={15} />
+                  <span>{copied ? 'EMAIL COPIED!' : 'COPY EMAIL'}</span>
+                </button>
+              </div>
+
+              {/* Direct Info List */}
+              <div className="contact__channels-list" role="list">
+                {/* Email Item */}
+                <div className="contact__channel-item" role="listitem">
+                  <div className="contact__channel-icon" aria-hidden="true">
+                    <Icon name="mail" size={16} />
                   </div>
-                  <div className="contact__item-details">
-                    <span className="contact__item-label">Email</span>
+                  <div className="contact__channel-details">
+                    <span className="contact__channel-label font-mono">EMAIL</span>
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="contact__item-value contact__item-link"
+                      className="contact__channel-value contact__channel-link font-mono"
                     >
                       {contactEmail}
                     </a>
                   </div>
-                  <button
-                    type="button"
-                    className="contact__copy-btn"
-                    onClick={copyEmailToClipboard}
-                    aria-label="Copy email address"
-                    title={copied ? 'Copied!' : 'Copy to clipboard'}
-                  >
-                    <Icon name={copied ? 'check' : 'copy'} size={15} />
-                  </button>
-                  {copied && (
-                    <span className="contact__copied-toast" aria-live="polite">
-                      Copied!
-                    </span>
-                  )}
                 </div>
 
-                {/* Phone Card */}
-                <div className="contact__item-card">
-                  <div className="contact__item-icon">
-                    <Icon name="phone" size={18} />
+                {/* Phone Item */}
+                <div className="contact__channel-item" role="listitem">
+                  <div className="contact__channel-icon" aria-hidden="true">
+                    <Icon name="phone" size={16} />
                   </div>
-                  <div className="contact__item-details">
-                    <span className="contact__item-label">Phone</span>
+                  <div className="contact__channel-details">
+                    <span className="contact__channel-label font-mono">PHONE</span>
                     <a
                       href={`tel:${contactPhone.replace(/\s+/g, '')}`}
-                      className="contact__item-value contact__item-link"
+                      className="contact__channel-value contact__channel-link font-mono"
                     >
                       {contactPhone}
                     </a>
                   </div>
                 </div>
 
-                {/* Location Card */}
-                <div className="contact__item-card">
-                  <div className="contact__item-icon">
-                    <Icon name="mapPin" size={18} />
+                {/* Location Item */}
+                <div className="contact__channel-item" role="listitem">
+                  <div className="contact__channel-icon" aria-hidden="true">
+                    <Icon name="mapPin" size={16} />
                   </div>
-                  <div className="contact__item-details">
-                    <span className="contact__item-label">Location</span>
-                    <span className="contact__item-value">{contactLocation}</span>
+                  <div className="contact__channel-details">
+                    <span className="contact__channel-label font-mono">LOCATION</span>
+                    <span className="contact__channel-value font-mono">{contactLocation}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Social Channels */}
+              {/* Verified External Profiles */}
               <div className="contact__socials-section">
-                <span className="contact__socials-title">Professional Profiles</span>
+                <span className="contact__socials-title font-mono">PROFILES & CREDENTIALS</span>
                 <div className="contact__socials-row">
                   <a
                     href={siteConfig.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact__social-button"
+                    className="contact__social-button font-mono"
                     aria-label={`${siteConfig.name} GitHub Profile`}
                   >
-                    <Icon name="github" size={16} />
+                    <Icon name="github" size={15} />
                     <span>GitHub</span>
-                    <Icon name="arrowUpRight" size={12} />
+                    <Icon name="arrowUpRight" size={11} />
                   </a>
                   <a
                     href={siteConfig.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact__social-button"
+                    className="contact__social-button font-mono"
                     aria-label={`${siteConfig.name} LinkedIn Profile`}
                   >
-                    <Icon name="linkedin" size={16} />
+                    <Icon name="linkedin" size={15} />
                     <span>LinkedIn</span>
-                    <Icon name="arrowUpRight" size={12} />
+                    <Icon name="arrowUpRight" size={11} />
                   </a>
                   <a
                     href={siteConfig.resume}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact__social-button"
-                    aria-label={`${siteConfig.name} Resume`}
+                    className="contact__social-button font-mono"
+                    aria-label={`Download ${siteConfig.name} Resume PDF`}
                   >
-                    <Icon name="download" size={16} />
-                    <span>Resume</span>
-                    <Icon name="arrowUpRight" size={12} />
+                    <Icon name="download" size={15} />
+                    <span>Resume (PDF)</span>
+                    <Icon name="arrowUpRight" size={11} />
                   </a>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Contact Form */}
+          {/* Right Column: Direct Message Composer */}
           <div className="contact__form-col reveal reveal-delay-2">
             <div className="contact__form-card">
               <div className="contact__form-header">
-                <h3 className="contact__form-title">Send a Message</h3>
+                <div className="contact__form-kicker font-mono">DIRECT MESSAGE COMPOSER</div>
+                <h3 className="contact__form-title">Send a prefilled message</h3>
                 <p className="contact__form-subtitle">
-                  Fill in the details below to open your default email client with a prefilled message.
+                  Compose your note below to trigger your default email client with your message cleanly preformatted.
                 </p>
               </div>
 
               <form className="contact__form" onSubmit={handleSubmit} action={currentMailtoLink} method="post" encType="text/plain">
                 {/* Name Field */}
                 <div className="form__group">
-                  <label htmlFor="contact-name" className="form__label">
-                    Your Name
+                  <label htmlFor="contact-name" className="form__label font-mono">
+                    YOUR NAME
                   </label>
                   <input
                     type="text"
@@ -235,8 +269,8 @@ export default function Contact() {
 
                 {/* Email Field */}
                 <div className="form__group">
-                  <label htmlFor="contact-email" className="form__label">
-                    Your Email
+                  <label htmlFor="contact-email" className="form__label font-mono">
+                    YOUR EMAIL
                   </label>
                   <input
                     type="email"
@@ -251,8 +285,8 @@ export default function Contact() {
 
                 {/* Subject Field */}
                 <div className="form__group">
-                  <label htmlFor="contact-subject" className="form__label">
-                    Subject
+                  <label htmlFor="contact-subject" className="form__label font-mono">
+                    SUBJECT
                   </label>
                   <input
                     type="text"
@@ -260,15 +294,15 @@ export default function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="e.g. Project Inquiry or Internship Opportunity"
+                    placeholder="e.g. Full Stack Opportunity or Project Inquiry"
                     className="form__input"
                   />
                 </div>
 
                 {/* Message Field */}
                 <div className="form__group">
-                  <label htmlFor="contact-message" className="form__label">
-                    Message
+                  <label htmlFor="contact-message" className="form__label font-mono">
+                    MESSAGE
                   </label>
                   <textarea
                     id="contact-message"
@@ -276,24 +310,21 @@ export default function Contact() {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Hello Faizan, I would like to get in touch..."
+                    placeholder="Hello Faizan, I came across your portfolio and would like to discuss..."
                     className="form__textarea"
                   ></textarea>
                 </div>
 
                 {/* Submit Button */}
-                <a
-                  href={currentMailtoLink}
+                <button
+                  type="submit"
                   className="btn btn--primary form__submit-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = currentMailtoLink;
-                  }}
+                  aria-label="Open email client with composed message"
                 >
                   <Icon name="mail" size={16} />
-                  <span>Send Message</span>
-                  <Icon name="arrowRight" size={15} />
-                </a>
+                  <span>OPEN EMAIL CLIENT</span>
+                  <Icon name="arrowRight" size={14} />
+                </button>
               </form>
             </div>
           </div>

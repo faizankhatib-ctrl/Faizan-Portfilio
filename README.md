@@ -25,7 +25,7 @@ Faizan Khatib is a Full Stack Developer (MERN Stack, Java) and published researc
 - **Frontend**: React 19, JavaScript (ES6+)
 - **Build Tool**: Vite 8
 - **Styling**: Vanilla CSS (Custom Design System, CSS Variables, Flexbox/Grid)
-- **Fonts**: Fraunces & Inter (Google Fonts)
+- **Fonts**: Plus Jakarta Sans, Space Grotesk, JetBrains Mono (Google Fonts)
 
 ## 📦 Getting Started
 

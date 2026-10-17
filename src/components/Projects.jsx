@@ -1,18 +1,69 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Icon from './Icon';
 
 const categories = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'fullstack', label: 'Full Stack' },
-  { id: 'backend', label: 'Backend' },
-  { id: 'aidata', label: 'AI / Data' },
-  { id: 'frontend', label: 'Frontend' },
-  { id: 'other', label: 'Other' },
+  { id: 'all', label: 'All Projects', shortLabel: 'ALL' },
+  { id: 'fullstack', label: 'Full Stack', shortLabel: 'FULL STACK' },
+  { id: 'backend', label: 'Backend / API', shortLabel: 'BACKEND / API' },
+  { id: 'aidata', label: 'AI / Tools', shortLabel: 'AI / TOOLS' },
+  { id: 'frontend', label: 'Frontend', shortLabel: 'FRONTEND' },
 ];
 
 const projectsData = [
   {
+    id: 'hairdrama-tech',
+    index: '01',
+    title: 'Hairdrama Tech — Task Management',
+    subtitle: 'Next.js & Python Flask enterprise workflow platform',
+    category: 'fullstack',
+    categoryLabel: 'Full Stack',
+    iconName: 'briefcase',
+    image: '/assets/projects/hairdrama-tech.svg',
+    shortDescription:
+      'A full-stack task management application featuring task creation and management, filtering, assignment, role-based access, dashboard statistics, and authentication.',
+    fullDescription:
+      'Hairdrama Tech is a production task management application engineered with a Next.js App Router frontend and a Python Flask REST API backend. It features robust user directory management, priority/status triage, relational database triggers on Supabase PostgreSQL, and asynchronous email notification dispatching.',
+    keyFeatures: [
+      'Google OAuth 2.0 and JWT authentication.',
+      'Task CRUD operations, filtering, and assignment.',
+      'Dashboard statistics and role-based access.',
+      '56 automated tests for reliability.',
+      'Gmail SMTP email notifications using a background thread.',
+      'Frontend deployment on Vercel.',
+    ],
+    technologies: ['Next.js', 'TypeScript', 'Python', 'Flask', 'Supabase PostgreSQL', 'Google OAuth', 'JWT', 'SMTP'],
+    github: 'https://github.com/faizankhatib-ctrl/HairdramaTech',
+    live: 'https://haridrama-tech.vercel.app',
+    featured: true,
+  },
+  {
+    id: 'support-crm',
+    index: '02',
+    title: 'SupportCRM — Ticketing System',
+    subtitle: 'Customer support workflow & issue management CRM',
+    category: 'fullstack',
+    categoryLabel: 'Full Stack',
+    iconName: 'fileText',
+    image: '/assets/projects/support-crm.svg',
+    shortDescription:
+      'A full-stack customer support system designed to manage support tickets and improve visibility into ticket status and activity.',
+    fullDescription:
+      'SupportCRM is a centralized web platform for customer support operations. Built on React, Vite, Node.js, Express, and Supabase PostgreSQL, it provides complete ticket lifecycle management, note collaboration, and a performance analytics dashboard.',
+    keyFeatures: [
+      'Ticket creation with automatically generated IDs.',
+      'Search, filtering, and ticket status updates.',
+      'Per-ticket notes and activity tracking.',
+      'Dashboard statistics, status charts, and activity feed.',
+      'API validation and centralized error handling.',
+    ],
+    technologies: ['React', 'Vite', 'Node.js', 'Express.js', 'Supabase PostgreSQL', 'REST API'],
+    github: 'https://github.com/faizankhatib-ctrl/Ticketing-CRM-System',
+    live: null,
+    featured: true,
+  },
+  {
     id: 'wanderlist',
+    index: '03',
     title: 'Wanderlist — Travel Platform',
     subtitle: 'High-concurrency travel booking & payment engine',
     category: 'fullstack',
@@ -32,37 +83,15 @@ const projectsData = [
     technologies: ['React.js', 'Vite', 'Node.js', 'Express.js', 'Prisma', 'PostgreSQL', 'Tailwind CSS', 'Framer Motion', 'Razorpay'],
     github: 'https://github.com/faizankhatib-ctrl/Travel-Booking-Website',
     live: 'https://travel-booking-ui-one.vercel.app/',
-    colorScheme: 'amber',
-  },
-  {
-    id: 'hairdrama-tech',
-    title: 'Hairdrama Tech — Task System',
-    subtitle: 'Next.js & Python Flask enterprise workflow platform',
-    category: 'fullstack',
-    categoryLabel: 'Full Stack',
-    iconName: 'briefcase',
-    image: '/assets/projects/hairdrama-tech.svg',
-    shortDescription:
-      'A full-stack task management application with Google OAuth 2.0, custom JWT authentication decorator, Supabase PostgreSQL, and automated Gmail SMTP notification workers.',
-    fullDescription:
-      'Hairdrama Tech is a production task management application engineered with a Next.js App Router frontend and a Python Flask REST API backend. It features robust user directory management, priority/status triage, relational database triggers on Supabase PostgreSQL, and asynchronous email notification dispatching.',
-    keyFeatures: [
-      'Comprehensive task lifecycle management with priority, status, and assignee filters.',
-      'Google OAuth 2.0 authentication with custom JWT token validation decorator.',
-      'Asynchronous Gmail SMTP worker for instant task assignment and status update notifications.',
-      'Automated schema migrations and relational indexing on Supabase PostgreSQL.',
-    ],
-    technologies: ['Next.js', 'TypeScript', 'Python', 'Flask', 'SQLAlchemy', 'Supabase PostgreSQL', 'Google OAuth', 'SMTP'],
-    github: 'https://github.com/faizankhatib-ctrl/HairdramaTech',
-    live: 'https://haridrama-tech.vercel.app',
-    colorScheme: 'cyan',
+    featured: false,
   },
   {
     id: 'lld-practice-platform',
+    index: '04',
     title: 'LLD Practice Platform',
     subtitle: 'Low-level design studio with automated Gemini AI evaluation',
     category: 'aidata',
-    categoryLabel: 'AI / Data',
+    categoryLabel: 'AI / Tools',
     iconName: 'cpu',
     image: '/assets/projects/lld-practice.svg',
     shortDescription:
@@ -78,14 +107,15 @@ const projectsData = [
     technologies: ['React 18', 'TypeScript', 'Node.js', 'Express.js', 'Mongoose', 'Google Gemini AI', 'Tailwind CSS', 'Zod'],
     github: 'https://github.com/faizankhatib-ctrl/lld-practice-platform',
     live: null,
-    colorScheme: 'indigo',
+    featured: false,
   },
   {
     id: 'event-booking-api',
+    index: '05',
     title: 'Event Booking & Ticketing API',
     subtitle: 'High-performance FastAPI & React event platform',
-    category: 'fullstack',
-    categoryLabel: 'Full Stack',
+    category: 'backend',
+    categoryLabel: 'Backend / API',
     iconName: 'grid',
     image: '/assets/projects/event-booking.svg',
     shortDescription:
@@ -101,14 +131,15 @@ const projectsData = [
     technologies: ['React.js', 'TypeScript', 'Python', 'FastAPI', 'MongoDB', 'Beanie ODM', 'Zustand', 'Docker'],
     github: 'https://github.com/faizankhatib-ctrl/eventbooking',
     live: null,
-    colorScheme: 'cyan',
+    featured: false,
   },
   {
     id: 'mindmap-ai',
+    index: '06',
     title: 'MindMap AI — Visual Workspace',
     subtitle: 'AI-assisted idea mapping & hierarchical canvas',
     category: 'aidata',
-    categoryLabel: 'AI / Data',
+    categoryLabel: 'AI / Tools',
     iconName: 'bookOpen',
     image: '/assets/projects/mindmap-ai.svg',
     shortDescription:
@@ -124,37 +155,15 @@ const projectsData = [
     technologies: ['React.js', 'Vite', 'TypeScript', 'Canvas API', 'AI Expansion', 'Tailwind CSS', 'JSON Export'],
     github: 'https://github.com/faizankhatib-ctrl/mindmap-ai',
     live: null,
-    colorScheme: 'indigo',
-  },
-  {
-    id: 'support-crm',
-    title: 'SupportCRM — Ticketing System',
-    subtitle: 'Customer support workflow & issue management CRM',
-    category: 'backend',
-    categoryLabel: 'Backend',
-    iconName: 'fileText',
-    image: '/assets/projects/support-crm.svg',
-    shortDescription:
-      'A full-stack customer support CRM system for managing, tracking, and resolving customer inquiries with auto-generated ticket IDs and analytics.',
-    fullDescription:
-      'SupportCRM is a centralized web platform for customer support operations. Built on Node.js, Express, and Supabase PostgreSQL, it provides complete ticket lifecycle management (Open, In Progress, Closed), note thread collaboration, urgency triage, and a performance analytics dashboard.',
-    keyFeatures: [
-      'Ticket lifecycle management with auto-generated TKT-XXX sequence and urgency triage.',
-      'Internal note thread history for agent collaboration and client follow-ups.',
-      'Analytics dashboard featuring resolution metrics and status distribution charts.',
-      'Relational PostgreSQL schema with secure environment parameterization.',
-    ],
-    technologies: ['Node.js', 'Express.js', 'Supabase PostgreSQL', 'React.js', 'Vite', 'REST API'],
-    github: 'https://github.com/faizankhatib-ctrl/Ticketing-CRM-System',
-    live: null,
-    colorScheme: 'amber',
+    featured: false,
   },
   {
     id: 'moneta-finance',
+    index: '07',
     title: 'Moneta — Finance Tracker',
     subtitle: 'Full-stack ledger with PBKDF2 authentication & alerts',
     category: 'backend',
-    categoryLabel: 'Backend',
+    categoryLabel: 'Backend / API',
     iconName: 'server',
     image: '/assets/projects/moneta-finance.svg',
     shortDescription:
@@ -170,15 +179,16 @@ const projectsData = [
     technologies: ['Python', 'Flask', 'SQLAlchemy', 'SQLite', 'Flask-Login', 'Chart UI', 'Vanilla JS'],
     github: 'https://github.com/faizankhatib-ctrl/Personal-Finance-Tracke',
     live: null,
-    colorScheme: 'emerald',
+    featured: false,
   },
 ];
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
+  const triggerRef = useRef(null);
 
-  // Close modal on Escape
+  // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && selectedProject) {
@@ -195,6 +205,9 @@ export default function Projects() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+      }
     }
     return () => {
       document.body.style.overflow = '';
@@ -205,164 +218,215 @@ export default function Projects() {
     ? projectsData
     : projectsData.filter((p) => p.category === activeFilter);
 
+  const openModal = (project, e) => {
+    triggerRef.current = e?.currentTarget || null;
+    setSelectedProject(project);
+  };
+
   return (
-    <section className="projects section-spacing" id="projects">
+    <section className="projects section-spacing" id="projects" aria-label="Projects Showcase">
       <div className="section-wrapper">
         {/* Section Header */}
         <div className="section-header reveal">
-          <div className="section-tag">
-            <span className="section-tag__num">04</span>
-            <span className="section-tag__label">Featured Work</span>
+          <div className="projects__header-top">
+            <div className="section-tag">
+              <span className="section-tag__num">04</span>
+              <span className="section-tag__label">SELECTED WORK</span>
+            </div>
+            <div className="projects__counter-pill">
+              <span className="projects__counter-dot" aria-hidden="true"></span>
+              <span className="font-mono">07 PROJECTS</span>
+            </div>
           </div>
           <h2 className="section-title">
-            Engineered with <span className="text-accent">precision</span> & depth.
+            Projects that solve <span className="text-accent">real problems</span>.
           </h2>
           <p className="section-subtitle">
-            A showcase of production-ready web applications, distributed APIs, AI evaluation studios, and full-stack systems.
+            Full-stack applications, developer tools, APIs, and AI-powered products built with modern engineering practices.
           </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="projects__filter-row reveal reveal-delay-1">
-          <div className="projects__filters" role="tablist" aria-label="Project Category Filters">
+        {/* Filter Bar */}
+        <div className="projects__filter-wrapper reveal reveal-delay-1">
+          <div
+            className="projects__filters"
+            role="tablist"
+            aria-label="Filter projects by technical category"
+          >
             {categories.map((cat) => {
               const count = cat.id === 'all'
                 ? projectsData.length
                 : projectsData.filter((p) => p.category === cat.id).length;
+              const isActive = activeFilter === cat.id;
 
               return (
                 <button
                   key={cat.id}
                   type="button"
                   role="tab"
-                  aria-selected={activeFilter === cat.id}
-                  className={`projects__filter-btn ${activeFilter === cat.id ? 'projects__filter-btn--active' : ''}`}
+                  id={`filter-tab-${cat.id}`}
+                  aria-controls="projects-grid"
+                  aria-selected={isActive}
+                  className={`projects__filter-btn ${isActive ? 'projects__filter-btn--active' : ''}`}
                   onClick={() => setActiveFilter(cat.id)}
                 >
-                  <span>{cat.label}</span>
-                  <span className="projects__filter-count">{count}</span>
+                  <span className="projects__filter-label">{cat.shortLabel || cat.label}</span>
+                  <span className="projects__filter-count font-mono">{count}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="projects__grid">
+        {/* Projects Bento / Grid */}
+        <div
+          id="projects-grid"
+          role="tabpanel"
+          aria-labelledby={`filter-tab-${activeFilter}`}
+          className={`projects__bento-grid ${activeFilter === 'all' ? 'projects__bento-grid--all' : ''}`}
+        >
           {filteredProjects.length === 0 ? (
-            <div className="projects__empty-state">
-              <div className="projects__empty-icon">
+            <div className="projects__empty-state reveal">
+              <div className="projects__empty-icon" aria-hidden="true">
                 <Icon name="info" size={24} />
               </div>
-              <p className="projects__empty-title">No projects in this category</p>
-              <p className="projects__empty-desc">Check out the other categories or browse all projects.</p>
+              <h3 className="projects__empty-title">No standalone frontend-only projects</h3>
+              <p className="projects__empty-desc">
+                All frontend interfaces in this portfolio are engineered end-to-end within the Full Stack, API, and AI systems listed above.
+              </p>
               <button
                 type="button"
                 className="btn btn--primary projects__empty-btn"
                 onClick={() => setActiveFilter('all')}
               >
-                <span>View All Projects</span>
+                <span>View All 07 Projects</span>
+                <Icon name="arrowRight" size={14} />
               </button>
             </div>
           ) : (
-            filteredProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className="projects__card reveal"
-                style={{ animationDelay: `${index * 60}ms` }}
-              >
-                {/* Card Banner */}
-                <div className="projects__card-banner">
-                  <img
-                    src={project.image}
-                    alt={`${project.title} Preview`}
-                    className="projects__card-img"
-                    loading="lazy"
-                  />
-                  <div className="projects__card-category-pill">
-                    {project.categoryLabel}
-                  </div>
-                  {project.live && (
-                    <div className="projects__card-live-badge" title="Live Deployment Active">
-                      <span className="projects__live-dot"></span>
-                      <span>Live Demo</span>
-                    </div>
-                  )}
-                </div>
+            filteredProjects.map((project, index) => {
+              const isFirstFeatured = activeFilter === 'all' && index === 0;
 
-                {/* Card Body */}
-                <div className="projects__card-body">
-                  <div className="projects__card-meta">
-                    <div className="projects__card-index">0{index + 1}</div>
-                    <div className="projects__card-titles">
+              return (
+                <article
+                  key={project.id}
+                  className={`projects__card reveal reveal-delay-${(index % 3) + 1} ${
+                    isFirstFeatured ? 'projects__card--featured' : ''
+                  }`}
+                >
+                  {/* Card Banner / Frame */}
+                  <div className="projects__card-banner">
+                    <img
+                      src={project.image}
+                      alt={`${project.title} Interface Preview`}
+                      className="projects__card-img"
+                      loading="lazy"
+                      decoding="async"
+                      width="480"
+                      height="210"
+                    />
+                    <div className="projects__card-banner-overlay" aria-hidden="true"></div>
+
+                    <div className="projects__card-badge-top">
+                      <span className="projects__card-index-pill font-mono">{project.index}</span>
+                      <span className="projects__card-cat-pill">{project.categoryLabel}</span>
+                    </div>
+
+                    {project.live && (
+                      <div className="projects__card-live-pill" title="Live Deployment Active">
+                        <span className="projects__live-dot" aria-hidden="true"></span>
+                        <span className="font-mono">LIVE DEMO</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="projects__card-body">
+                    <div className="projects__card-heading-group">
                       <h3 className="projects__card-title">{project.title}</h3>
                       <p className="projects__card-subtitle">{project.subtitle}</p>
                     </div>
-                  </div>
 
-                  <p className="projects__card-desc">{project.shortDescription}</p>
+                    <p className="projects__card-desc">{project.shortDescription}</p>
 
-                  {/* Tech Tags */}
-                  <div className="projects__card-tags">
-                    {project.technologies.slice(0, 5).map((tech) => (
-                      <span className="projects__card-tag" key={tech}>
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 5 && (
-                      <span className="projects__card-tag projects__card-tag--more">
-                        +{project.technologies.length - 5}
-                      </span>
-                    )}
-                  </div>
+                    {/* Engineering Highlights */}
+                    <div className="projects__card-highlights">
+                      <div className="projects__highlights-header">
+                        <span className="projects__highlights-label font-mono">ENGINEERING HIGHLIGHTS</span>
+                      </div>
+                      <ul className="projects__highlights-list" role="list">
+                        {project.keyFeatures.slice(0, 2).map((feature, fIdx) => (
+                          <li key={fIdx} className="projects__highlight-item">
+                            <span className="projects__highlight-arrow" aria-hidden="true">▹</span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  {/* Card Actions */}
-                  <div className="projects__card-actions">
-                    <button
-                      type="button"
-                      className="btn-card-action btn-card-action--details"
-                      onClick={() => setSelectedProject(project)}
-                      aria-label={`View details for ${project.title}`}
-                    >
-                      <Icon name="eye" size={14} />
-                      <span>View Details</span>
-                    </button>
+                    {/* Tech Stack Chips */}
+                    <div className="projects__card-tech-group">
+                      <span className="projects__tech-label font-mono">STACK</span>
+                      <div className="projects__card-tags" aria-label={`Tech stack for ${project.title}`}>
+                        {project.technologies.slice(0, 5).map((tech) => (
+                          <span className="projects__card-tag" key={tech}>
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 5 && (
+                          <span className="projects__card-tag projects__card-tag--more font-mono">
+                            +{project.technologies.length - 5}
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-card-action btn-card-action--github"
-                      aria-label={`GitHub repository for ${project.title}`}
-                      title="View GitHub Repository"
-                    >
-                      <Icon name="github" size={14} />
-                      <span>GitHub</span>
-                      <Icon name="arrowUpRight" size={11} />
-                    </a>
+                    {/* Card Actions */}
+                    <div className="projects__card-actions">
+                      <button
+                        type="button"
+                        className="btn-card-action btn-card-action--details"
+                        onClick={(e) => openModal(project, e)}
+                        aria-label={`View Case Study and architecture details for ${project.title}`}
+                      >
+                        <Icon name="eye" size={13} />
+                        <span>Case Study</span>
+                      </button>
 
-                    {project.live && (
                       <a
-                        href={project.live}
+                        href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-card-action btn-card-action--demo"
-                        aria-label={`Live demo for ${project.title}`}
-                        title="Launch Live Demo"
+                        className="btn-card-action btn-card-action--github"
+                        aria-label={`View ${project.title} repository on GitHub`}
                       >
-                        <Icon name="externalLink" size={14} />
-                        <span>Live Demo</span>
+                        <Icon name="github" size={13} />
+                        <span>GitHub</span>
+                        <Icon name="arrowUpRight" size={11} className="btn-card-action__arrow" />
                       </a>
-                    )}
+
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-card-action btn-card-action--demo"
+                          aria-label={`Launch ${project.title} live demo`}
+                        >
+                          <Icon name="externalLink" size={13} />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))
+                </article>
+              );
+            })
           )}
         </div>
       </div>
 
-      {/* Project Details Modal */}
+      {/* Case Study / Project Details Modal */}
       {selectedProject && (
         <div
           className="modal__backdrop"
@@ -380,18 +444,22 @@ export default function Projects() {
             <div className="modal__banner">
               <img
                 src={selectedProject.image}
-                alt={`${selectedProject.title} Preview`}
+                alt={`${selectedProject.title} Interface Preview`}
                 className="modal__banner-img"
+                decoding="async"
+                width="720"
+                height="200"
               />
-              <div className="modal__banner-overlay"></div>
+              <div className="modal__banner-overlay" aria-hidden="true"></div>
 
               <div className="modal__banner-content">
                 <div className="modal__badge-row">
+                  <span className="modal__index-badge font-mono">PROJECT {selectedProject.index}</span>
                   <span className="modal__category-badge">{selectedProject.categoryLabel}</span>
                   {selectedProject.live && (
-                    <span className="modal__live-badge">
-                      <span className="projects__live-dot"></span>
-                      Live Demo Active
+                    <span className="modal__live-badge font-mono">
+                      <span className="projects__live-dot" aria-hidden="true"></span>
+                      LIVE DEPLOYMENT ACTIVE
                     </span>
                   )}
                 </div>
@@ -405,7 +473,7 @@ export default function Projects() {
                 type="button"
                 className="modal__close-btn"
                 onClick={() => setSelectedProject(null)}
-                aria-label="Close dialog"
+                aria-label="Close case study dialog"
               >
                 <Icon name="close" size={18} />
               </button>
@@ -413,20 +481,28 @@ export default function Projects() {
 
             {/* Modal Body */}
             <div className="modal__body">
+              {/* Overview */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Overview</h4>
+                <div className="modal__section-header">
+                  <Icon name="layers" size={14} className="text-accent" />
+                  <h4 className="modal__section-heading font-mono">OVERVIEW & PROBLEM STATEMENT</h4>
+                </div>
                 <p className="modal__description" id="modal-project-desc">
                   {selectedProject.fullDescription}
                 </p>
               </div>
 
+              {/* Engineering Highlights */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Key Features & Architecture</h4>
-                <ul className="modal__features-list">
+                <div className="modal__section-header">
+                  <Icon name="cpu" size={14} className="text-cyan" />
+                  <h4 className="modal__section-heading font-mono">ENGINEERING HIGHLIGHTS & ARCHITECTURE</h4>
+                </div>
+                <ul className="modal__features-list" role="list">
                   {selectedProject.keyFeatures.map((feature, i) => (
                     <li key={i} className="modal__feature-item">
-                      <span className="modal__feature-check">
-                        <Icon name="check" size={12} />
+                      <span className="modal__feature-check" aria-hidden="true">
+                        <Icon name="check" size={13} />
                       </span>
                       <span>{feature}</span>
                     </li>
@@ -434,11 +510,15 @@ export default function Projects() {
                 </ul>
               </div>
 
+              {/* Technologies */}
               <div className="modal__section">
-                <h4 className="modal__section-heading">Technologies</h4>
-                <div className="modal__tech-tags">
+                <div className="modal__section-header">
+                  <Icon name="code" size={14} className="text-emerald" />
+                  <h4 className="modal__section-heading font-mono">TECH STACK</h4>
+                </div>
+                <div className="modal__tech-tags" aria-label={`Technologies in ${selectedProject.title}`}>
                   {selectedProject.technologies.map((tech) => (
-                    <span className="modal__tech-tag" key={tech}>
+                    <span className="modal__tech-tag font-mono" key={tech}>
                       {tech}
                     </span>
                   ))}
@@ -455,7 +535,7 @@ export default function Projects() {
                 className="btn btn--primary"
                 aria-label={`Open ${selectedProject.title} GitHub repository`}
               >
-                <Icon name="github" size={16} />
+                <Icon name="github" size={15} />
                 <span>GitHub Repository</span>
                 <Icon name="arrowUpRight" size={13} />
               </a>
@@ -468,18 +548,18 @@ export default function Projects() {
                   className="btn btn--secondary"
                   aria-label={`Launch ${selectedProject.title} Live Demo`}
                 >
-                  <Icon name="externalLink" size={16} />
+                  <Icon name="externalLink" size={15} />
                   <span>Launch Live Demo</span>
                 </a>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn--ghost"
-                  onClick={() => setSelectedProject(null)}
-                >
-                  <span>Close</span>
-                </button>
-              )}
+              ) : null}
+
+              <button
+                type="button"
+                className="btn btn--ghost modal__footer-close"
+                onClick={() => setSelectedProject(null)}
+              >
+                <span>Close Case Study</span>
+              </button>
             </div>
           </div>
         </div>
